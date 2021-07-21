@@ -1,0 +1,15 @@
+Please list down the library you've install on your local machine. Add on the functionabilities of it if possibble.
+
+Example: 0. npm install --save react-navigation  //provide the project functionabilities of navigatation bar
+
+1. 
+
+2.
+
+3.
+
+4.
+
+5.
+
+6.
