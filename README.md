@@ -1,2 +1,6 @@
 # WirelessAppAss
-Assignment of WirelessApp
+This repository should only contain files like '...Screens', 'sqlite' ... 
+Please don't put react-navigation's auto generated files inside.
+
+Please add what library you have install on your local machine in 'add_on_library.txt' if it is crucial for running.
+for example: react-navigation-stack, react-navigation ...
