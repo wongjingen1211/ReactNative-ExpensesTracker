@@ -2,14 +2,16 @@ Please list down the library you've install on your local machine. Add on the fu
 
 Example: 0. npm install --save react-navigation  //provide the project functionabilities of navigatation bar
 
-1. 
+1. npm install formik --save
 
-2.
+2. npm install react-native-gesture-handler
 
-3.
+3. npm install @react-navigation/native
 
-4.
+4. npm install @react-navigation/stack
 
-5.
+5. npm i @react-navigation/bottom-tabs
 
-6.
+6. npm i react-native-vector-icons/MaterialCommunityIcons
+
+7. npm i react-native-vector-icons/Ionicons
