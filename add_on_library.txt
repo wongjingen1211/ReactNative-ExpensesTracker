@@ -17,5 +17,17 @@ Example: 0. npm install --save react-navigation  //provide the project functiona
 
 7. npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
 
-8.
+8. npm install react-native-settings-list --save
+
+9. npm i react-native-modal-datetime-picker @react-native-community/datetimepicker
+
+10. npm install @react-native-community/checkbox --save
+
+11. npm install victory-native --save
+
+12. npm install react-native-svg --save
+
+13. npm install --save moment react-moment
+
+14. npm install react-native-floating-action
 
