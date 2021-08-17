@@ -77,7 +77,7 @@ def insert_single_transaction():
         request.json['category_id'],
         request.json['amount'],
         request.json['memo'],
-        request.json['process_date'],
+        request.json['date'],
     )
 
     db = sqlite3.connect(DB)
@@ -85,7 +85,7 @@ def insert_single_transaction():
 
     cursor.execute('''
         INSERT INTO transaction_table(category_id,amount,memo,process_date) 
-        VALUES(?,?,?,?,?)
+        VALUES(?,?,?,?)
     ''', new_transaction)
 
     transaction_id = cursor.lastrowid
@@ -202,6 +202,8 @@ def select_all_category():
     for row in rows:
         row_as_dict = get_category_row(row)
         rows_as_dict.append(row_as_dict)
+
+    print(rows_as_dict)
 
     return jsonify(rows_as_dict), 200       #return dictionary: 'category_id','category_name'
 
