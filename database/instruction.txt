@@ -1,0 +1,7 @@
+1. Ignore the 'CreateDB.py' and 'RecordsDatabase.sqlite' if you dont want to make modification on databasae structure.
+
+2. Make sure the 'RecordsDatabase.sqlite' and 'server.py' placed in the same directory.
+
+3. Make sure your local machine has installed Python and related libraries: 'sqlite3,flask'.
+
+4. Open this directory in Command Prompt, then type 'python server.py'
