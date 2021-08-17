@@ -5,3 +5,5 @@
 3. Make sure your local machine has installed Python and related libraries: 'sqlite3,flask'.
 
 4. Open this directory in Command Prompt, then type 'python server.py'
+!!! sometimes the server might not response to the request and console there shows [TypeError: Network request failed] 
+!!!Just return to the previous page then come back again for it to reload.
