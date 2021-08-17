@@ -1,93 +1,93 @@
-import React, { useState } from "react";
-import { Text, StyleSheet, TouchableOpacity, View, SafeAreaView } from "react-native";
+import React, {useState, Component} from 'react';
+import {
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  SafeAreaView,
+  Alert,
+} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Icon from "react-native-vector-icons/Ionicons";
-import CategoryButton from "../../component/CategoryButton";
-import { bold } from "jest-matcher-utils/node_modules/chalk";
-import { styles } from "ansi-colors";
-import { NavigationContainer } from '@react-navigation/native';
-import { FloatingAction } from 'react-native-floating-action';
+import Icon from 'react-native-vector-icons/Ionicons';
+import CategoryButton from '../../component/CategoryButton';
+import {bold} from 'jest-matcher-utils/node_modules/chalk';
+import {styles} from 'ansi-colors';
+import {NavigationContainer} from '@react-navigation/native';
+import {InputWithLabel} from './UI';
 
-const actions = [{
-    text: 'Add',
-    icon: require('../../assets/icons/create.png'),
-    name: 'add',
-    position: 1
-}, {
-    text: 'Delete',
-    color: '#c80000',
-    icon: require('../../assets/icons/delete.png'),
-    name: 'delete',
-    position: 2
-}
-];
+type Props = {};
+export default class EditCategories extends Component<Props> {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Edit: ' + navigation.getParam('headerTitle'),
+    };
+  };
+  constructor(props) {
+    super(props);
 
-const EditCategories = () => {
+    this.state = {
+      cat_id: this.props.navigation.getParam('id'),
+      name: this.props.navigation.getParam('name'),
+    };
+
+    this._updateSingleCategory = this._updateSingleCategory.bind(this);
+  }
+
+  _updateSingleCategory() {
+    //configure the URL to point to the placeID to be updated
+    let url = 'http://192.168.1.192:5000/api/category/' + this.state.cat_id;
+    // invoke the ‘PUT http request to server part
+    fetch(url, {
+      method: 'PUT',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      //data is to be in JSON format
+      body: JSON.stringify({
+        category_id: this.state.cat_id,
+        category_name: this.state.name,
+      }),
+    })
+      .then(response => {
+        if (!response.ok) {
+          Alert.alert('Error', response.status.toString());
+          throw Error('Error ' + response.status);
+        }
+        return response.json();
+      })
+      .then(responseJson => {
+        if (responseJson.affected > 0) {
+          Alert.alert('Record Updated');
+        } else {
+          Alert.alert('Error updating record');
+        }
+        this.props.navigation.getParam('refresh')();
+        this.props.navigation.goBack();
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
+  render() {
     return (
-        <SafeAreaView style={styles2.Space}>
-            <View style={styles2.Parent}>
-                <CategoryButton text={"Food"} icon={'food'} />
-                <CategoryButton text={"Daily Necessity"} icon={"toothbrush"} />
-                <CategoryButton text={"Entertainment"} icon={"movie"} />
-            </View>
-            <View style={styles2.Parent}>
-                <CategoryButton text={"Books"} icon={"book-open-page-variant"} />
-                <CategoryButton text={"Insurance"} icon={"shield-car"} />
-                <CategoryButton text={"Loan"} icon={"currency-usd"} />
-            </View>
-            <View style={styles2.Parent}>
-                <CategoryButton text={"Others"} icon={"dots-horizontal"} />
-            </View>
-            <FloatingAction
-                actions={actions}
-                color={'lightblue'}
-
-                onPressItem={(name) => {
-                    switch (name) {
-                        case 'add':
-                            /* onPressItem={
-                                    () => {
-                                    this.props.navigation.navigate('CreateBudget', {
-                                        refresh: this._query,
-                                    })
-                                    }
-                                }*/
-                            break;
-
-                        case 'delete':
-                            //   this._delete();
-                            break;
-                    }
-                }
-                }
-            />
-        </SafeAreaView>
+      <SafeAreaView style={styles2.Space}>
+        <InputWithLabel
+          style={styles.input}
+          label={'Category Name'}
+          value={this.state.category_name}
+          onChangeText={category_name => {
+            this.setState({category_name});
+          }}
+          orientation={'vertical'}
+        />
+      </SafeAreaView>
     );
-
-
-
-};
-
-
+  }
+}
 
 const styles2 = StyleSheet.create({
-    Space: {
-        flex: 1.0,
-
-    },
-    Parent: {
-        flex: 1.0,
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 10,
-    },
-    text: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'red',
-        marginLeft: 5
-    }
-
+  Space: {
+    flex: 1.0,
+  },
 });
-
-export default EditCategories;
