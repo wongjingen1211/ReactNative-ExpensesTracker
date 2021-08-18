@@ -13,15 +13,10 @@ import CategoryButton from '../../component/CategoryButton';
 import {bold} from 'jest-matcher-utils/node_modules/chalk';
 import {styles} from 'ansi-colors';
 import {NavigationContainer} from '@react-navigation/native';
-import {InputWithLabel} from './UI';
+import {InputWithLabel, AppButton} from './UI';
 
 type Props = {};
 export default class EditCategories extends Component<Props> {
-  static navigationOptions = ({navigation}) => {
-    return {
-      title: 'Edit: ' + navigation.getParam('headerTitle'),
-    };
-  };
   constructor(props) {
     super(props);
 
@@ -31,6 +26,7 @@ export default class EditCategories extends Component<Props> {
     };
 
     this._updateSingleCategory = this._updateSingleCategory.bind(this);
+    this._deleteSingleCategory = this._deleteSingleCategory.bind(this);
   }
 
   _updateSingleCategory() {
@@ -69,6 +65,56 @@ export default class EditCategories extends Component<Props> {
         console.error(error);
       });
   }
+
+  _deleteSingleCategory() {
+    Alert.alert(
+      'Confirm Deletion',
+      'Delete `' + this.state.name + '`?',
+      [
+        {
+          text: 'No',
+          onPress: () => {},
+        },
+        {
+          text: 'Yes',
+          onPress: () => {
+            //configure the URL to point to the placeID to be deleted
+            let url =
+              config.settings.serverPath + '/api/category/' + this.state.cat_id;
+            //invoke the ‘DELETE’ http request to server part
+            fetch(url, {
+              method: 'DELETE',
+              headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+              },
+              //data is to be in JSON format
+              body: JSON.stringify({id: this.state.cat_id}),
+            })
+              .then(response => {
+                if (!response.ok) {
+                  Alert.alert('Error', response.status.toString());
+                  throw Error('Error ' + response.status);
+                }
+                return response.json();
+              })
+              .then(responseJson => {
+                if (responseJson.affected == 0) {
+                  Alert.alert('Error deleting record');
+                }
+                this.props.navigation.getParam('refresh')();
+                this.props.navigation.goBack();
+              })
+              .catch(error => {
+                console.error(error);
+              });
+          },
+        },
+      ],
+      {cancelable: false},
+    );
+  }
+
   render() {
     return (
       <SafeAreaView style={styles2.Space}>
@@ -81,6 +127,23 @@ export default class EditCategories extends Component<Props> {
           }}
           orientation={'vertical'}
         />
+        <AppButton
+          style={styles.button}
+          title={'Save'}
+          theme={'primary'}
+          onPress={() => {
+            this._updateSingleCategory();
+            console.log('Changes saved.');
+          }}
+        />
+        <AppButton
+          style={styles.button}
+          title={'Delete Category'}
+          theme={'primary'}
+          onPress={() => {
+            this._deleteSingleCategory();
+          }}
+        />
       </SafeAreaView>
     );
   }
@@ -89,5 +152,9 @@ export default class EditCategories extends Component<Props> {
 const styles2 = StyleSheet.create({
   Space: {
     flex: 1.0,
+  },
+  button: {
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
