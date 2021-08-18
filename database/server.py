@@ -248,7 +248,7 @@ def insert_single_category():
     cursor = db.cursor()
 
     cursor.execute('''
-        INSERT INTO category_table(name) 
+        INSERT INTO category_table(category_name) 
         VALUES(?)
     ''', new_category)
 
@@ -333,7 +333,7 @@ def delete_single_category(catID):
 if __name__ == '__main__':
 #-----------------------------------------------
     #testing space
-   
+    
 #-----------------------------------------------
     parser = ArgumentParser()
     parser.add_argument('-p', '--port', default=5000,
