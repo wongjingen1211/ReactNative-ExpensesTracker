@@ -31,3 +31,4 @@ Example: 0. npm install --save react-navigation  //provide the project functiona
 
 14. npm install react-native-floating-action
 
+15. npm install --save react-native-input-prompt
