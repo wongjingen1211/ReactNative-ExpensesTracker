@@ -171,11 +171,23 @@ def delete_single_transaction(transID):
 
 #Monthly Rpoert queries-------------------------------------------------------------------------------
 #select sum of amount group by category in selected month
-@app.route('/api/transaction/mothlyReport/<int:YearMonth>', methods=['GET'])
+@app.route('/api/transaction/monthlyReport', methods=['GET'])
 def select_monthly_transaction_report(YearMonth):
+    if 'selectedMonth' not in request.json:
+        abort(400)
+    if 'nextMonth' not in request.json:
+        abort(400)
+
+    transaction_range = (
+        request.json['selectedMonth'],
+        request.json['nextMonth'],
+    )
+    
     db = sqlite3.connect(DB)
     cursor = db.cursor()
-    cursor.execute('SELECT SUM(t.amount),c.category_name FROM transaction_table t, category_table c WHERE process_date = ? AND  t.category_id = c.category_id GROUP BY c.category_name ORDER BY SUM(amount)',(str(YearMonth),))
+    cursor.execute(''' 
+        SELECT SUM(t.amount),c.category_name FROM transaction_table t, category_table c WHERE process_date >= ? AND  process_date < ? AND t.category_id = c.category_id GROUP BY c.category_name ORDER BY SUM(amount)
+    ''', transaction_range)     #returns the grouped transactions between selected month. If select Aug 2021, then transaction date >= 1 Aug 2021 AND transaction date < 1 Sept 2021 will be displayed.
     rows = cursor.fetchall()
 
     db.close()
@@ -321,7 +333,7 @@ def delete_single_category(catID):
 if __name__ == '__main__':
 #-----------------------------------------------
     #testing space
-    
+   
 #-----------------------------------------------
     parser = ArgumentParser()
     parser.add_argument('-p', '--port', default=5000,
