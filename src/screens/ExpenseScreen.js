@@ -37,8 +37,7 @@ export default class ExpensesScreen extends Component<Props> {
   openDatePicker = async () => {
     try {
       const {action, year, month, day} = await DatePickerAndroid.open({
-        date: this.state.date,
-        minDate: new Date(2021, 0, 1),
+        minDate: new Date(2000, 0, 1),
         maxDate: new Date(2099, 11, 31),
         mode: 'calendar',
       });
@@ -124,7 +123,8 @@ export default class ExpensesScreen extends Component<Props> {
   }
 
   render() {
-    var date = this.state.date;
+    if (this.state.date == 0) var date = new Date();
+    else var date = this.state.date;
     var dateday = new Date(date).getDate();
     var month = new Date(date).getMonth();
     var year = new Date(date).getFullYear();
@@ -147,6 +147,7 @@ export default class ExpensesScreen extends Component<Props> {
     var dayName = daysText[day];
     var monthName = monthsText[month];
     var newdate = dayName + ' ' + dateday + ' ' + monthName + ' ' + year;
+
     return (
       <ScrollView style={styles.container}>
         <InputWithLabel
