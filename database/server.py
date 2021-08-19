@@ -179,16 +179,11 @@ def delete_single_transaction(transID):
 
 #Monthly Rpoert queries-------------------------------------------------------------------------------
 #select sum of amount group by category in selected month
-@app.route('/api/transaction/monthlyReport', methods=['GET'])
-def select_monthly_transaction_report(YearMonth):
-    if 'selectedMonth' not in request.json:
-        abort(400)
-    if 'nextMonth' not in request.json:
-        abort(400)
-
+@app.route('/api/transaction/monthlyReport/<int:startMonth>/<int:endMonth>', methods=['GET'])
+def select_monthly_transaction_report(startMonth,endMonth):
     transaction_range = (
-        request.json['selectedMonth'],
-        request.json['nextMonth'],
+        str(startMonth),
+        str(endMonth),
     )
     
     db = sqlite3.connect(DB)
