@@ -21,7 +21,7 @@ export default class ExpensesScreen extends Component<Props> {
       category_id: 1,
       amount: 0,
       memo: '',
-      date: 0,
+      date: Date.parse(new Date()),
       categories: [],
       isFetching: false,
     };
@@ -113,7 +113,7 @@ export default class ExpensesScreen extends Component<Props> {
             console.log(responseJson.affected);
             Alert.alert('Error saving record');
           }
-          this.props.navigation.getParam('refresh')();
+          //this.props.navigation.getParam('refresh')();  //all getParam wont work.
           this.props.navigation.goBack();
         })
         .catch(error => {
@@ -123,8 +123,7 @@ export default class ExpensesScreen extends Component<Props> {
   }
 
   render() {
-    if (this.state.date == 0) var date = new Date();
-    else var date = this.state.date;
+    var date = this.state.date;
     var dateday = new Date(date).getDate();
     var month = new Date(date).getMonth();
     var year = new Date(date).getFullYear();
