@@ -277,19 +277,12 @@ const AccountReportScreen = () => {
     );
 
     //preprocess the date format----------
-    let url = 'http://192.168.1.192:5000/api/transaction/monthlyReport';
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      //data is to be in JSON format
-      body: JSON.stringify({
-        selectedMonth: selectedMonth_parsed, //send the current month
-        nextMonth: nextMonth_parsed, //send the next month
-      }),
-    })
+    let url =
+      'http://192.168.1.192:5000/api/transaction/monthlyReport/' +
+      selectedMonth_parsed +
+      '/' +
+      nextMonth_parsed;
+    fetch(url)
       .then(response => {
         if (!response.ok) {
           Alert.alert('Error', response.status.toString());
