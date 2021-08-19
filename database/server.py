@@ -36,11 +36,19 @@ app = Flask(__name__)
 
 #Transaction queries-------------------------------------------------------------------------------
 #get all transaction rows in a selected day
-@app.route('/api/transaction/all/<int:YearMonthDay>', methods=['GET'])
-def select_all_transaction(YearMonthDay):
+@app.route('/api/transaction/all/<int:startTime>/<int:endTime>', methods=['GET'])
+def select_all_transaction(startTime,endTime):
+
+    transaction_range = (
+        str(startTime),
+        str(endTime),
+    )
+
     db = sqlite3.connect(DB)
     cursor = db.cursor()
-    cursor.execute('SELECT t.transaction_id,c.category_name,t.amount,t.memo,t.process_date FROM transaction_table t,category_table c WHERE t.process_date = ? AND t.category_id = c.category_id ORDER BY t.transaction_id',(str(YearMonthDay),))
+    cursor.execute(''' 
+        SELECT t.transaction_id,c.category_name,t.amount,t.memo,t.process_date FROM transaction_table t, category_table c WHERE t.process_date >= ? AND  t.process_date < ? AND t.category_id = c.category_id ORDER BY t.transaction_id
+    ''', transaction_range) 
     rows = cursor.fetchall()
 
     db.close()
