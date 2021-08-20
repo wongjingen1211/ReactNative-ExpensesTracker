@@ -23,6 +23,8 @@ import DatePickerModal from 'react-native-modal-datetime-picker';
 import Moment from 'react-moment';
 import moment from 'moment';
 
+let config = require('../../Config');
+
 const AccountReportScreen = () => {
   // dummy data
   const confirmStatus = 'C';
@@ -278,7 +280,8 @@ const AccountReportScreen = () => {
 
     //preprocess the date format----------
     let url =
-      'http://192.168.1.192:5000/api/transaction/monthlyReport/' +
+      config.settings.serverPath +
+      '/api/transaction/monthlyReport/' +
       selectedMonth_parsed +
       '/' +
       nextMonth_parsed;
