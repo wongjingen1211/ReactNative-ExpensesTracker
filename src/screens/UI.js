@@ -272,7 +272,7 @@ const inputStyles = StyleSheet.create({
     textAlignVertical: 'center',
   },
   input: {
-    flex: 3,
+    flex: 1,
     fontSize: 20,
   },
 });
