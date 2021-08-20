@@ -290,7 +290,7 @@ def update_single_category(catID):
 
     cursor.execute('''
         UPDATE category_table 
-        SET name=?
+        SET category_name=?
         WHERE category_id=?
     ''', update_category)
 
@@ -323,7 +323,17 @@ def delete_single_category(catID):
     db = sqlite3.connect(DB)
     cursor = db.cursor()
 
-    cursor.execute('DELETE FROM category_table WHERE category_id = ?', (str(catID),))
+    #turn all transaction with 'category to be deleted' into 'default category', which is category_id:1--------------
+    cursor.execute('SELECT transaction_id, category_id FROM transaction_table WHERE category_id = ?', (str(catID),))
+    transaction_rows = cursor.fetchall()
+    trans_rows_as_dict = []
+    for row in transaction_rows:
+        cursor.execute('UPDATE transaction_table SET category_id= ? WHERE transaction_id = ?', (str(1),str(row[0]),))
+        print('Transaction id:'+str(row[0])+' has been switched to category \'food\' due to depencency issue.')
+
+    db.commit()
+    #--------------------------------------------------------------------------------------------------------------
+    cursor.execute('DELETE FROM category_table WHERE category_id = ?', (str(catID),)) #delete the selected category
 
     db.commit()
 
