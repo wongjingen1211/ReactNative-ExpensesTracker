@@ -170,14 +170,14 @@ export default class HomeScreen extends Component<Props> {
               return (
                 <TouchableHighlight
                   underlayColor={'#cccccc'}
-                  onPress={() => {
-                    this.props.navigation.navigate('Category', {
-                      //should navigate to EDIT EXPENSE SCREEN
-                      id: item.amount,
-                      name: item.category_name,
+                  onPress={
+                    () => this.props.navigation.navigate('EditExpense') /*{
+                    this.props.navigation.navigate('EditExpense', {
+                      id: item.transaction_id,
                       refresh: this._selectAllCategory,
                     });
-                  }}>
+                  }*/
+                  }>
                   <View style={styles.transaction_row}>
                     <Text style={styles.text}>{item.amount}</Text>
                     <Text style={styles.text}>{item.category_name}</Text>
