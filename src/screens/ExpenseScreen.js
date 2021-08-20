@@ -12,6 +12,8 @@ import {
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {InputWithLabel, AppButton, CategoryPickerWithLabel} from './UI';
 
+let config = require('../../Config');
+
 type Props = {};
 export default class ExpensesScreen extends Component<Props> {
   constructor(props) {
@@ -56,7 +58,7 @@ export default class ExpensesScreen extends Component<Props> {
 
   _selectAllCategory() {
     //fetch all category in this function
-    let url = 'http://192.168.1.192:5000/api/category';
+    let url = config.settings.serverPath + '/api/category';
     this.setState({isFetching: true});
     fetch(url)
       .then(response => {
@@ -82,7 +84,7 @@ export default class ExpensesScreen extends Component<Props> {
   _insertSingleTransaction() {
     if (this.state.date != 0) {
       //configure the URL to point to the places table
-      let url = 'http://192.168.1.192:5000/api/transaction';
+      let url = config.settings.serverPath + '/api/transaction';
       // invoke the ‘POST’ http request to server part
       fetch(url, {
         method: 'POST',
