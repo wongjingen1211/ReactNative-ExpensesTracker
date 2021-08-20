@@ -28,6 +28,8 @@ const actions = [
   },
 ];
 
+let config = require('../../Config');
+
 type Props = {};
 export default class CategoryScreen extends Component {
   constructor(props) {
@@ -49,7 +51,7 @@ export default class CategoryScreen extends Component {
 
   _selectAllCategory() {
     //fetch all category in this function
-    let url = 'http://192.168.1.192:5000/api/category';
+    let url = config.settings.serverPath + '/api/category';
     this.setState({isFetching: true});
     fetch(url)
       .then(response => {
@@ -90,7 +92,7 @@ export default class CategoryScreen extends Component {
       if (!duplicateFlag) {
         console.log('Added category: ' + newCategoryName);
         //configure the URL to point to the places table
-        let url = 'http://192.168.1.192:5000/api/category';
+        let url = config.settings.serverPath + '/api/category';
         // invoke the ‘POST’ http request to server part
         fetch(url, {
           method: 'POST',
