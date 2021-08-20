@@ -21,8 +21,8 @@ export default class EditCategories extends Component<Props> {
     super(props);
 
     this.state = {
-      cat_id: this.props.navigation.getParam('id'),
-      name: this.props.navigation.getParam('name'),
+      cat_id: 1, //this.props.navigation.getParam('id'),
+      name: 'temp', //this.props.navigation.getParam('name'),
     };
 
     this._updateSingleCategory = this._updateSingleCategory.bind(this);
@@ -80,7 +80,7 @@ export default class EditCategories extends Component<Props> {
           onPress: () => {
             //configure the URL to point to the placeID to be deleted
             let url =
-              config.settings.serverPath + '/api/category/' + this.state.cat_id;
+              'http://192.168.1.192:5000/api/category/' + this.state.cat_id;
             //invoke the ‘DELETE’ http request to server part
             fetch(url, {
               method: 'DELETE',
@@ -89,7 +89,7 @@ export default class EditCategories extends Component<Props> {
                 'Content-Type': 'application/json',
               },
               //data is to be in JSON format
-              body: JSON.stringify({id: this.state.cat_id}),
+              body: JSON.stringify({category_id: this.state.cat_id}),
             })
               .then(response => {
                 if (!response.ok) {
@@ -133,7 +133,6 @@ export default class EditCategories extends Component<Props> {
           theme={'primary'}
           onPress={() => {
             this._updateSingleCategory();
-            console.log('Changes saved.');
           }}
         />
         <AppButton
@@ -144,6 +143,10 @@ export default class EditCategories extends Component<Props> {
             this._deleteSingleCategory();
           }}
         />
+        <Text>
+          ***this page is fixed on editing category id:1 for demo purpose, cause
+          the getParam at (line 24-25) wont work.***
+        </Text>
       </SafeAreaView>
     );
   }
