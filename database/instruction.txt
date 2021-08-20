@@ -5,5 +5,17 @@
 3. Make sure your local machine has installed Python and related libraries: 'sqlite3,flask'.
 
 4. Open this directory in Command Prompt, then type 'python server.py'
+
+5. FIRST TIME ONLY: 
+  Check your Flask server address on local machine. It can be find at the bottom after you have started Flask server.
+  
+  Example: * Running on http://192.168.1.192:5000/ (Press CTRL+C to quit)
+  
+  Then the 192.168.1.192 is the host, 5000 is the port. 
+  Required modification:
+  line 356 at server.py.
+  line 360 at server.py.
+  line 2 at Config.js.
+  
 !!! sometimes the server might not response to the request and console there shows [TypeError: Network request failed] 
 !!!Just return to the previous page then come back again for it to reload.
