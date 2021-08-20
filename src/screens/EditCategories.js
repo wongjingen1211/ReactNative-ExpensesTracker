@@ -22,7 +22,7 @@ export default class EditCategories extends Component<Props> {
 
     this.state = {
       cat_id: 1, //this.props.navigation.getParam('id'),
-      name: 'temp', //this.props.navigation.getParam('name'),
+      category_name: 'temp', //this.props.navigation.getParam('name'),
     };
 
     this._updateSingleCategory = this._updateSingleCategory.bind(this);
@@ -42,7 +42,7 @@ export default class EditCategories extends Component<Props> {
       //data is to be in JSON format
       body: JSON.stringify({
         category_id: this.state.cat_id,
-        category_name: this.state.name,
+        category_name: this.state.category_name,
       }),
     })
       .then(response => {
@@ -69,7 +69,7 @@ export default class EditCategories extends Component<Props> {
   _deleteSingleCategory() {
     Alert.alert(
       'Confirm Deletion',
-      'Delete `' + this.state.name + '`?',
+      'Delete `' + this.state.category_name + '`?',
       [
         {
           text: 'No',
@@ -119,30 +119,33 @@ export default class EditCategories extends Component<Props> {
     return (
       <SafeAreaView style={styles2.Space}>
         <InputWithLabel
-          style={styles.input}
+          style={styles2.input}
           label={'Category Name'}
-          value={this.state.category_name}
+          value={String(this.state.category_name)}
           onChangeText={category_name => {
             this.setState({category_name});
           }}
           orientation={'vertical'}
         />
-        <AppButton
-          style={styles.button}
-          title={'Save'}
-          theme={'primary'}
-          onPress={() => {
-            this._updateSingleCategory();
-          }}
-        />
-        <AppButton
-          style={styles.button}
-          title={'Delete Category'}
-          theme={'primary'}
-          onPress={() => {
-            this._deleteSingleCategory();
-          }}
-        />
+
+        <View style={styles2.buttonSpace}>
+          <AppButton
+            style={styles2.button}
+            title={'Save'}
+            theme={'primary'}
+            onPress={() => {
+              this._updateSingleCategory();
+            }}
+          />
+          <AppButton
+            style={styles2.button}
+            title={'Delete Category'}
+            theme={'primary'}
+            onPress={() => {
+              this._deleteSingleCategory();
+            }}
+          />
+        </View>
         <Text>
           ***this page is fixed on editing category id:1 for demo purpose, cause
           the getParam at (line 24-25) wont work.***
@@ -156,6 +159,11 @@ const styles2 = StyleSheet.create({
   Space: {
     flex: 1.0,
   },
+  buttonSpace: {
+    flex: 3,
+    height: 30,
+  },
+  input: {height: 30, color: 'red', margin: 0},
   button: {
     marginTop: 10,
     marginBottom: 10,
