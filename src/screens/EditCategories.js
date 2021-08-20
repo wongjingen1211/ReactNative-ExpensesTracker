@@ -15,6 +15,8 @@ import {styles} from 'ansi-colors';
 import {NavigationContainer} from '@react-navigation/native';
 import {InputWithLabel, AppButton} from './UI';
 
+let config = require('../../Config');
+
 type Props = {};
 export default class EditCategories extends Component<Props> {
   constructor(props) {
@@ -31,7 +33,7 @@ export default class EditCategories extends Component<Props> {
 
   _updateSingleCategory() {
     //configure the URL to point to the placeID to be updated
-    let url = 'http://192.168.1.192:5000/api/category/' + this.state.cat_id;
+    let url = config.settings.serverPath + '/api/category/' + this.state.cat_id;
     // invoke the ‘PUT http request to server part
     fetch(url, {
       method: 'PUT',
