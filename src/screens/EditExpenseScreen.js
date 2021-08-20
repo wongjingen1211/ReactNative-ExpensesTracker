@@ -22,6 +22,8 @@ const actions = [
   },
 ];
 
+let config = require('../../Config');
+
 type Props = {};
 export default class EditExpensesScreen extends Component<Props> {
   constructor(props) {
@@ -87,7 +89,7 @@ export default class EditExpensesScreen extends Component<Props> {
 
   _selectAllCategory() {
     //fetch all category in this function
-    let url = 'http://192.168.1.192:5000/api/category';
+    let url = config.settings.serverPath + '/api/category';
     this.setState({isFetching: true});
     fetch(url)
       .then(response => {
@@ -112,7 +114,8 @@ export default class EditExpensesScreen extends Component<Props> {
 
   _selectSingleTransaction() {
     let url =
-      'http://192.168.1.192:5000/api/transaction/single/' +
+      config.settings.serverPath +
+      '/api/transaction/single/' +
       this.state.transaction_id;
     fetch(url)
       .then(response => {
@@ -138,7 +141,9 @@ export default class EditExpensesScreen extends Component<Props> {
 
   _updateSingleTransaction(INcategory_id, INamount, INmemo, INprocess_date) {
     let url =
-      'http://192.168.1.192:5000/api/transaction/' + this.state.transaction_id;
+      config.settings.serverPath +
+      '/api/transaction/' +
+      this.state.transaction_id;
     // invoke the ‘PUT http request to server part
     fetch(url, {
       method: 'PUT',
@@ -190,7 +195,8 @@ export default class EditExpensesScreen extends Component<Props> {
           text: 'Yes',
           onPress: () => {
             //configure the URL to point to the placeID to be deleted
-            let url = 'http://192.168.1.192:5000/api/transaction/' + transID;
+            let url =
+              config.settings.serverPath + '/api/transaction/' + transID;
             //invoke the ‘DELETE’ http request to server part
             fetch(url, {
               method: 'DELETE',
