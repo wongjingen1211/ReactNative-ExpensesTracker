@@ -15,6 +15,8 @@ import {
 import {AppButton} from './UI';
 import {NavigationContainer} from '@react-navigation/native';
 
+let config = require('../../Config');
+
 type Props = {};
 export default class HomeScreen extends Component<Props> {
   constructor(props) {
@@ -71,7 +73,8 @@ export default class HomeScreen extends Component<Props> {
     console.log(endTime_parsed);
     //preprocess the date format----------
     let url =
-      'http://192.168.1.192:5000/api/transaction/all/' +
+      config.settings.serverPath +
+      '/api/transaction/all/' +
       startTime_parsed +
       '/' +
       endTime_parsed;
