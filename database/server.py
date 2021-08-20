@@ -357,6 +357,8 @@ if __name__ == '__main__':
     args = parser.parse_args()
     port = args.port
 
-    app.run(host='192.168.1.192', port=port)
+    app.run(host='192.168.1.192', port=port)       
+    #change the value of 'host' and 'port' according to what your flask tells you 
+    #Example: Running on http://192.168.1.192:5000/ (Press CTRL+C to quit) then 192.168.1.192 is host, 5000 is port
 
     
