@@ -122,8 +122,8 @@ def update_single_transaction(transID):
         abort(400)
 
     update_transaction = (
-        request.json['category_id'],
         request.json['amount'],
+        request.json['category_id'],
         request.json['memo'],
         request.json['process_date'],
         str(transID),
@@ -134,7 +134,7 @@ def update_single_transaction(transID):
 
     cursor.execute('''
         UPDATE transaction_table 
-        SET amount=?,category_id=?,memo=?,date=? 
+        SET amount=?,category_id=?,memo=?,process_date=? 
         WHERE transaction_id=?
     ''', update_transaction)
 
@@ -316,6 +316,9 @@ def delete_single_category(catID):
 
     if int(request.json['category_id']) != catID:
         abort(400)
+
+    if (catID==1):
+        abort('101: Cannot delete default category.')
 
     db = sqlite3.connect(DB)
     cursor = db.cursor()
