@@ -8,6 +8,7 @@ import {
   Alert,
   TouchableHighlight,
   FlatList,
+  ToastAndroid,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -28,7 +29,7 @@ const actions = [
 ];
 
 type Props = {};
-export default class EditCategories extends Component {
+export default class CategoryScreen extends Component {
   constructor(props) {
     super(props);
 
@@ -140,11 +141,22 @@ export default class EditCategories extends Component {
               <TouchableHighlight
                 underlayColor={'#cccccc'}
                 onPress={() => {
-                  this.props.navigation.navigate('EditCategories', {
-                    id: item.category_id,
-                    name: item.category_name,
-                    refresh: this._selectAllCategory,
-                  });
+                  if (item.category_id != 1) {
+                    //prevent user to edit the defualt category
+                    this.props.navigation.navigate('EditCategories', {
+                      id: item.category_id,
+                      name: item.category_name,
+                      refresh: this._selectAllCategory,
+                    });
+                  } else {
+                    ToastAndroid.showWithGravityAndOffset(
+                      'Cannot modify default category.',
+                      ToastAndroid.LONG,
+                      ToastAndroid.BOTTOM,
+                      25,
+                      50,
+                    );
+                  }
                 }}>
                 <Text style={styles2.text}>{item.category_name}</Text>
               </TouchableHighlight>
