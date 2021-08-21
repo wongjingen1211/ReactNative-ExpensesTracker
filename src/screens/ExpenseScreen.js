@@ -39,8 +39,8 @@ export default class ExpensesScreen extends Component<Props> {
   openDatePicker = async () => {
     try {
       const {action, year, month, day} = await DatePickerAndroid.open({
-        minDate: new Date(2000, 0, 1),
-        maxDate: new Date(2099, 11, 31),
+        maxDate: new Date(), // Today
+        minDate: new Date(2000, 1, 1),
         mode: 'calendar',
       });
       if (action !== DatePickerAndroid.dismissedAction) {
