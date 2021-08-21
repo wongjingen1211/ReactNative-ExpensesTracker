@@ -115,7 +115,7 @@ export default class ExpensesScreen extends Component<Props> {
             console.log(responseJson.affected);
             Alert.alert('Error saving record');
           }
-          //this.props.navigation.getParam('refresh')();  //all getParam wont work.
+          this.props.route.params.refresh();
           this.props.navigation.goBack();
         })
         .catch(error => {
