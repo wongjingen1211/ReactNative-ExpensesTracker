@@ -23,8 +23,8 @@ export default class EditCategories extends Component<Props> {
     super(props);
 
     this.state = {
-      cat_id: 1, //this.props.navigation.getParam('id'),
-      category_name: 'temp', //this.props.navigation.getParam('name'),
+      cat_id: props.route.params.id,
+      category_name: props.route.params.name,
     };
 
     this._updateSingleCategory = this._updateSingleCategory.bind(this);
@@ -60,7 +60,7 @@ export default class EditCategories extends Component<Props> {
         } else {
           Alert.alert('Error updating record');
         }
-        this.props.navigation.getParam('refresh')();
+        this.props.route.params.refresh();
         this.props.navigation.goBack();
       })
       .catch(error => {
@@ -104,7 +104,7 @@ export default class EditCategories extends Component<Props> {
                 if (responseJson.affected == 0) {
                   Alert.alert('Error deleting record');
                 }
-                this.props.navigation.getParam('refresh')();
+                this.props.route.params.refresh();
                 this.props.navigation.goBack();
               })
               .catch(error => {
@@ -148,10 +148,6 @@ export default class EditCategories extends Component<Props> {
             }}
           />
         </View>
-        <Text>
-          ***this page is fixed on editing category id:1 for demo purpose, cause
-          the getParam at (line 24-25) wont work.***
-        </Text>
       </SafeAreaView>
     );
   }
