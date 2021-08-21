@@ -105,12 +105,11 @@ export default class HomeScreen extends Component<Props> {
   onDateChange(date) {
     this.setState({
       selected_date: date,
-    }); 
+    });
     setTimeout(() => {
-       this._selectTransactions();
-   }, 500); //wait for the cateogry load
+      this._selectTransactions();
+    }, 500); //wait for the cateogry load
   }
-
 
   render() {
     if (this.state.selected_date == 0) var date = new Date();
@@ -120,7 +119,20 @@ export default class HomeScreen extends Component<Props> {
     var year = new Date(date).getFullYear();
     var day = new Date(date).getDay();
     let daysText = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    let monthsText = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',];
+    let monthsText = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
     var dayName = daysText[day];
     var monthName = monthsText[month];
     var newdate = dayName + ' ' + dateday + ' ' + monthName + ' ' + year;
@@ -131,13 +143,12 @@ export default class HomeScreen extends Component<Props> {
     console.log(this.state.selected_transactions);
     return (
       <SafeAreaView style={{flex: 1}}>
-
         <View style={styles.container}>
-        <CalendarPicker
-          minDate={minDate}
-          maxDate={maxDate}
-          onDateChange={this.onDateChange}
-        />
+          <CalendarPicker
+            minDate={minDate}
+            maxDate={maxDate}
+            onDateChange={this.onDateChange}
+          />
         </View>
 
         <View>
@@ -150,14 +161,12 @@ export default class HomeScreen extends Component<Props> {
               return (
                 <TouchableHighlight
                   underlayColor={'#cccccc'}
-                  onPress={() => 
-                    {
+                  onPress={() => {
                     this.props.navigation.navigate('EditExpense', {
                       id: item.transaction_id,
-                      refresh: this._selectAllCategory,
+                      refresh: this._selectTransactions,
                     });
-                  }
-                  }>
+                  }}>
                   <View style={styles.transaction_row}>
                     <Text style={styles.text}>{item.amount}</Text>
                     <Text style={styles.text}>{item.category_name}</Text>
@@ -174,7 +183,11 @@ export default class HomeScreen extends Component<Props> {
         <View style={{flex: 1, padding: 16}}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.navigation.navigate('Expense')}>
+            onPress={() => {
+              this.props.navigation.navigate('Expense', {
+                refresh: this._selectTransactions,
+              });
+            }}>
             <Text>Add Transaction</Text>
           </TouchableOpacity>
         </View>
