@@ -30,7 +30,7 @@ export default class EditExpensesScreen extends Component<Props> {
     super(props);
 
     this.state = {
-      transaction_id: 1, //this.props.navigation.getParam('id');
+      transaction_id: props.route.params.id,
       category_name: '',
       amount: 0,
       memo: '',
@@ -70,8 +70,8 @@ export default class EditExpensesScreen extends Component<Props> {
   openDatePicker = async () => {
     try {
       const {action, year, month, day} = await DatePickerAndroid.open({
-        minDate: new Date(2000, 0, 1),
-        maxDate: new Date(2099, 11, 31),
+        maxDate: new Date(), // Today
+        minDate: new Date(2000, 1, 1),
         mode: 'calendar',
       });
       if (action !== DatePickerAndroid.dismissedAction) {
