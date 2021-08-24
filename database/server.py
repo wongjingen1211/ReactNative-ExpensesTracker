@@ -18,8 +18,8 @@ def get_transaction_row(row):
 
 def get_monthly_report_row(row):
     row_dict = {
-        'total': row[0],
-        'category_name': row[1],
+        'category_name': row[0],
+        'total': row[1],
     }
 
     return row_dict
@@ -189,7 +189,7 @@ def select_monthly_transaction_report(startMonth,endMonth):
     db = sqlite3.connect(DB)
     cursor = db.cursor()
     cursor.execute(''' 
-        SELECT SUM(t.amount),c.category_name FROM transaction_table t, category_table c WHERE process_date >= ? AND  process_date < ? AND t.category_id = c.category_id GROUP BY c.category_name ORDER BY SUM(amount)
+        SELECT c.category_name,SUM(t.amount) FROM transaction_table t, category_table c WHERE process_date >= ? AND  process_date < ? AND t.category_id = c.category_id GROUP BY c.category_name ORDER BY SUM(amount)
     ''', transaction_range)     #returns the grouped transactions between selected month. If select Aug 2021, then transaction date >= 1 Aug 2021 AND transaction date < 1 Sept 2021 will be displayed.
     rows = cursor.fetchall()
 
@@ -198,6 +198,34 @@ def select_monthly_transaction_report(startMonth,endMonth):
     rows_as_dict = []
     for row in rows:
         row_as_dict = get_monthly_report_row(row)
+        rows_as_dict.append(row_as_dict)
+
+    return jsonify(rows_as_dict), 200       #return dictionary: 'total','category_name'
+
+#select all transaction within selected month and category_name
+@app.route('/api/transaction/monthlyCategorySummarize/<int:startMonth>/<int:endMonth>/<string:cat_name>', methods=['GET'])
+def select_monthly_transaction_report_inCategory(startMonth,endMonth,cat_name):
+    transaction_range = (
+        str(startMonth),
+        str(endMonth),
+        str(cat_name),
+    )
+    print(startMonth)
+    print(endMonth)
+    print(cat_name)
+     
+    db = sqlite3.connect(DB)
+    cursor = db.cursor()
+    cursor.execute(''' 
+        SELECT t.transaction_id,c.category_name,t.amount,t.memo,t.process_date FROM transaction_table t, category_table c WHERE process_date >= ? AND  process_date < ? AND c.category_name = ? AND t.category_id = c.category_id ORDER BY t.transaction_id
+    ''', transaction_range)     #returns the grouped transactions between selected month. If select Aug 2021, then transaction date >= 1 Aug 2021 AND transaction date < 1 Sept 2021 will be displayed.
+    rows = cursor.fetchall()
+
+    db.close()
+
+    rows_as_dict = []
+    for row in rows:
+        row_as_dict = get_transaction_row(row)
         rows_as_dict.append(row_as_dict)
 
     return jsonify(rows_as_dict), 200       #return dictionary: 'total','category_name'
