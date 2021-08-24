@@ -17,6 +17,7 @@ import AccountReportScreen from './src/screens/AccountReportScreen';
 import Reminder from './src/screens/Reminder';
 import EditCategories from './src/screens/EditCategories';
 import MonthlyBudgets from './src/screens/MonthlyBudgets';
+import MonthlyCategoryScreen from './src/screens/MonthlyCategoryScreen';
 import CreateBudget from './src/screens/CreateBudget';
 
 import {black} from 'color-name';
@@ -107,6 +108,16 @@ function SummaryNavi() {
         name="AccountReports"
         component={AccountReportScreen}
         options={{title: 'AccountReports'}}
+      />
+      <Stack.Screen
+        name="M_Category"
+        component={MonthlyCategoryScreen}
+        options={{title: 'Monthly Category'}}
+      />
+      <Stack.Screen
+        name="EditExpense"
+        component={EditExpenseScreen}
+        options={{title: 'Edit Transaction'}}
       />
     </Stack.Navigator>
   );
