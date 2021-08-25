@@ -9,6 +9,7 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './src/screens/HomeScreen';
+import CurrencyConverter from './src/screens/CurrencyConverter';
 import ExpenseScreen from './src/screens/ExpenseScreen';
 import EditExpenseScreen from './src/screens/EditExpenseScreen';
 import CategoryScreen from './src/screens/CategoryScreen';
@@ -123,6 +124,23 @@ function SummaryNavi() {
   );
 }
 
+function ConverterNavi(){
+  <Stack.Navigator
+      initialRouteName="Converter"
+      screenOptions={{
+        headerStyle: {backgroundColor: '#fffacd'},
+        headerTintColor: '#ff8c00',
+        headerTitleStyle: {fontWeight: 'normal', fontSize: 25},
+      }}>
+         <Stack.Screen
+        name="CurrencyConverter"
+        component={CurrencyConverter}
+        options={{title: 'Currency Converter'}}
+      />
+      </Stack.Navigator>
+     
+}
+
 const Tab = createBottomTabNavigator();
 
 function Menu() {
@@ -168,6 +186,20 @@ function Menu() {
             tabBarIcon: ({color, size}) => (
               <MaterialCommunityIcons
                 name="account-multiple"
+                color={color}
+                size={32}
+              />
+            ),
+          }}
+        />
+         <Tab.Screen
+          name="EasyTracker4"
+          component={ConverterNavi}
+          options={{
+            tabBarLabel: 'Currency Converter',
+            tabBarIcon: ({color, size}) => (
+              <MaterialCommunityIcons
+                name="currency-usd"
                 color={color}
                 size={32}
               />
