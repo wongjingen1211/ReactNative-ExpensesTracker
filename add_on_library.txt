@@ -34,3 +34,5 @@ Example: 0. npm install --save react-navigation  //provide the project functiona
 15. npm install --save react-native-input-prompt
 
 16. npm install react-native-calendar-picker
+
+17. npm install react-native-month-year-picker --save
