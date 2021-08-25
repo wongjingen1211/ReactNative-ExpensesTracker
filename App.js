@@ -125,6 +125,7 @@ function SummaryNavi() {
 }
 
 function ConverterNavi(){
+  return(
   <Stack.Navigator
       initialRouteName="Converter"
       screenOptions={{
@@ -138,7 +139,7 @@ function ConverterNavi(){
         options={{title: 'Currency Converter'}}
       />
       </Stack.Navigator>
-     
+     )
 }
 
 const Tab = createBottomTabNavigator();
