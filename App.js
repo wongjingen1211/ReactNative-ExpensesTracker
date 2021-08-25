@@ -139,7 +139,7 @@ function ConverterNavi(){
         options={{title: 'Currency Converter'}}
       />
       </Stack.Navigator>
-     )
+     );
 }
 
 const Tab = createBottomTabNavigator();
