@@ -1,0 +1,18 @@
+Can fix the error if have similar error on the side
+
+Execution failed for task ':app:mergeDebugAssets'.
+> Could not resolve all files for configuration ':app:debugRuntimeClasspath'.
+   > Failed to transform react-native-reanimated-65-hermes.aar (project :react-native-reanimated) 
+to match attributes {artifactType=android-assets}.
+      > Execution failed for JetifyTransform: C:\Users\alexa\Documents\Programmieren\TheRightChoice\node_modules\react-native-reanimated\android\react-native-reanimated-65-hermes.aar.
+         > Transform's input file does not exist: C:\Users\alexa\Documents\Programmieren\TheRightChoice\node_modules\react-native-reanimated\android\react-native-reanimated-65-hermes.aar. (See https://issuetracker.google.com/issues/158753935)
+
+react-native-reanimated Incompatibility with react-native 0.65.0 
+
+*Use npm react-native init XXX --0.64.2 (or any other older version RN) can provide other solution if find it
+
+
+Super expression must either be null or a function --> victory-native 
+*Stil finding a solution to fix it for npm package
+
+
