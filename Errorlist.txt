@@ -13,6 +13,6 @@ react-native-reanimated Incompatibility with react-native 0.65.0
 
 
 Super expression must either be null or a function --> victory-native 
-*Stil finding a solution to fix it for npm package
+*Uninstall victory native and install the new version again
 
 
