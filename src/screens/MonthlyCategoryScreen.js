@@ -1,12 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import 'react-native-gesture-handler';
-import CalendarPicker from 'react-native-calendar-picker';
 import {
   StyleSheet,
-  Button,
   Text,
   View,
-  TouchableOpacity,
   SafeAreaView,
   TouchableHighlight,
   FlatList,
@@ -14,8 +11,7 @@ import {
   Alert,
   AsyncStorage,
 } from 'react-native';
-import {AppButton} from './UI';
-import {NavigationContainer} from '@react-navigation/native';
+
 
 let config = require('../../Config');
 
@@ -97,11 +93,11 @@ export default class MonthlyCategoryScreen extends Component<Props> {
 
     console.log(
       'Viewing Transactions of ' +
-        category_name +
-        ' in:' +
-        monthsText[selectedmonth] +
-        ',' +
-        selectedyear,
+      category_name +
+      ' in:' +
+      monthsText[selectedmonth] +
+      ',' +
+      selectedyear,
     );
     this.setState({
       dateInString: monthsText[selectedmonth] + ',' + selectedyear,
@@ -125,7 +121,7 @@ export default class MonthlyCategoryScreen extends Component<Props> {
         return response.json();
       })
       .then(selected_transactions => {
-        this.setState({selected_transactions});
+        this.setState({ selected_transactions });
         console.log(selected_transactions);
       })
       .catch(error => {
@@ -135,15 +131,16 @@ export default class MonthlyCategoryScreen extends Component<Props> {
 
   render() {
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View>
-          <Text>{this.state.dateInString}</Text>
-          <Text>{this.state.selected_categoryName}</Text>
+
+          <Text style={styles.date}>{this.state.dateInString}</Text>
+          <Text style={{ fontSize: 18, marginTop: 10 }} >{this.state.selected_categoryName}</Text>
           <FlatList
             data={this.state.selected_transactions}
             extraData={this.state}
             showsVerticalScrollIndicator={true}
-            renderItem={({item}) => {
+            renderItem={({ item }) => {
               return (
                 <TouchableHighlight
                   underlayColor={'#cccccc'}
@@ -189,16 +186,25 @@ const styles = StyleSheet.create({
     width: 300,
     marginTop: 16,
   },
-  text: {},
+  text: {
+    fontSize: 18,
+    color: '#20232a',
+    textAlign: 'center',
+  },
   transaction_row: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 8,
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: '#000',
-    backgroundColor: '#e7e7e7',
-    color: '#20232a',
+    backgroundColor: '#edf5ff',
+  },
+  date: {
     textAlign: 'center',
     fontSize: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: '#c4c4c4',
+    paddingBottom: 5,
+    fontWeight: 'bold',
   },
 });
