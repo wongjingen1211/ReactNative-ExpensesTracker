@@ -1,27 +1,22 @@
-import React, {useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
   ScrollView,
   View,
   Text,
-  StatusBar,
   Image,
-  ImageBackground,
   TouchableOpacity,
   FlatList,
-  Animated,
-  Platform,
-  AsyncStorage,
 } from 'react-native';
-import {VictoryPie} from 'victory-native';
+import { VictoryPie } from 'victory-native';
 
-import {Svg} from 'react-native-svg';
+import { Svg } from 'react-native-svg';
 
-import {COLORS, FONTS, SIZES, icons} from '../../component';
+import { COLORS, FONTS, SIZES, icons } from '../../component';
 
 import MonthPicker from 'react-native-month-year-picker';
-import {Component} from 'react/cjs/react.production.min';
+import { Component } from 'react/cjs/react.production.min';
 
 let config = require('../../Config');
 
@@ -41,9 +36,8 @@ let monthsText = [
 ];
 
 let colorScales = [
-  COLORS.primary,
-  COLORS.lightBlue,
-  COLORS.darkgreen,
+  COLORS.blue,
+  COLORS.yellow,
   COLORS.peach,
   COLORS.purple,
   COLORS.red,
@@ -123,14 +117,14 @@ class AccountReportScreen extends Component<Props> {
     }
     let monthYear = selectedMonthName + ',' + selectedyear;
 
-    this.setState({dateInString: monthYear});
+    this.setState({ dateInString: monthYear });
     console.log(
       'Viewing Transactions from:' +
-        selectedMonthName +
-        selectedyear +
-        ' to ' +
-        nextmonthName +
-        nextYear,
+      selectedMonthName +
+      selectedyear +
+      ' to ' +
+      nextmonthName +
+      nextYear,
     );
     this.setState({
       startTimepasser: selectedMonth_parsed,
@@ -154,16 +148,16 @@ class AccountReportScreen extends Component<Props> {
       })
       .then(reportData => {
         if (reportData.length > 0) {
-          this.setState({reportData: reportData}); //returned rows of {'total','category_name'}
+          this.setState({ reportData: reportData }); //returned rows of {'total','category_name'}
           var total = 0;
           for (let index in reportData) {
             total += parseFloat(reportData[index]['total']);
           }
-          this.setState({totalAmount: total});
+          this.setState({ totalAmount: total });
         } else {
-          reportData = [{category_name: 'No', total: 'Records'}];
-          this.setState({reportData: reportData});
-          this.setState({totalAmount: 0});
+          reportData = [{ category_name: 'No', total: 'Records' }];
+          this.setState({ reportData: reportData });
+          this.setState({ totalAmount: 0 });
         }
 
         console.log(reportData);
@@ -175,9 +169,9 @@ class AccountReportScreen extends Component<Props> {
   //---------------------------------------------------------------------------------------------------------------------------------------
 
   _onValueChange(event, newDate) {
-    this.setState({selected_date: newDate});
+    this.setState({ selected_date: newDate });
 
-    this.setState({show: false});
+    this.setState({ show: false });
     this._selectAllCategory_inMonth();
   }
 
@@ -201,8 +195,8 @@ class AccountReportScreen extends Component<Props> {
             paddingHorizontal: SIZES.radius,
             height: 40,
           }}>
-          <Text style={{fontSize: 20, left: 20}}>{'Categories'}</Text>
-          <Text style={{fontSize: 20, position: 'absolute', right: 40}}>
+          <Text style={{ fontSize: 20, left: 20 }}>{'Categories'}</Text>
+          <Text style={{ fontSize: 20, position: 'absolute', right: 40 }}>
             {'Total (RM)'}
           </Text>
         </View>
@@ -217,9 +211,9 @@ class AccountReportScreen extends Component<Props> {
     const minDate = new Date(2000, 1, 1);
     var date = this.state.selected_date;
     return (
-      <View style={{flex: 1, backgroundColor: COLORS.lightGray2}}>
+      <View style={{ flex: 1, backgroundColor: COLORS.lightGray2 }}>
         {/* Header section */}
-        {<View style={{paddingHorizontal: SIZES.padding}}></View>}
+        {<View style={{ paddingHorizontal: SIZES.padding }}></View>}
 
         {/* Category Header Section */}
         {
@@ -237,7 +231,7 @@ class AccountReportScreen extends Component<Props> {
                 marginLeft: SIZES.padding,
                 alignItems: 'center',
               }}
-              onPress={() => this.setState({show: true})}>
+              onPress={() => this.setState({ show: true })}>
               <View
                 style={{
                   backgroundColor: COLORS.lightGray,
@@ -270,10 +264,10 @@ class AccountReportScreen extends Component<Props> {
             </TouchableOpacity>
             {/* Title */}
             <View>
-              <Text style={{color: COLORS.primary, ...FONTS.h3}}>
+              <Text style={{ color: COLORS.primary, ...FONTS.h3 }}>
                 CATEGORIES
               </Text>
-              <Text style={{color: COLORS.darkgray, ...FONTS.body4}}>
+              <Text style={{ color: COLORS.darkgray, ...FONTS.body4 }}>
                 {this.state.reportData.length} Total
               </Text>
             </View>
@@ -285,24 +279,24 @@ class AccountReportScreen extends Component<Props> {
             style={{
               alignItems: 'center',
               justifyContent: 'center',
-              backgroundColor: '#e8e8e8',
+              backgroundColor: '#ededed',
             }}>
             <Svg width={SIZES.width} height={SIZES.width}>
               <VictoryPie
                 colorScale={colorScales}
                 standalone={false} // Android workaround
                 data={chartData}
-                labels={({datum}) =>
+                labels={({ datum }) =>
                   `${datum.x}(${Math.round(
                     (datum.y / this.state.totalAmount) * 100,
                   )}%)`
                 }
                 innerRadius={70}
-                labelRadius={({innerRadius}) =>
+                labelRadius={({ innerRadius }) =>
                   (SIZES.width * 0.4 + innerRadius) / 2.5
                 }
                 style={{
-                  labels: {fill: 'black', ...FONTS.body3},
+                  labels: { fill: 'black', ...FONTS.body3 },
                   parent: {
                     ...styles.shadow,
                   },
@@ -311,32 +305,33 @@ class AccountReportScreen extends Component<Props> {
                 height={SIZES.width}
               />
             </Svg>
-            <View style={{position: 'absolute', top: '42%', left: '38%'}}>
-              <Text style={{...FONTS.body3, textAlign: 'center'}}>
+            <View style={{ position: 'absolute', top: '42%', left: '38%' }}>
+              <Text style={{ ...FONTS.body3, textAlign: 'center' }}>
                 {this.state.totalAmount}
               </Text>
-              <Text style={{...FONTS.body3, textAlign: 'center'}}>
+              <Text style={{ ...FONTS.body3, textAlign: 'center' }}>
                 Total Amount
               </Text>
             </View>
           </View>
 
-          <View style={{padding: SIZES.padding}}>
-            <SafeAreaView style={{flex: 1}}>
+          <View style={{ padding: SIZES.padding }}>
+            <SafeAreaView style={{ flex: 1 }}>
               <FlatList
                 data={this.state.reportData}
                 extraData={this.state}
                 showsVerticalScrollIndicator={true}
                 ListHeaderComponent={getHeader}
                 ListFooterComponent={getFooter}
-                renderItem={({item}) => {
+                renderItem={({ item }) => {
                   return (
                     <TouchableOpacity
                       style={{
                         flexDirection: 'row',
                         paddingHorizontal: SIZES.radius,
                         height: 40,
-                        backgroundColor: '#dbdbdb',
+                        backgroundColor: '#edf5ff',
+                        borderWidth: 1
                       }}
                       onPress={() => {
                         this._saveSetting(
@@ -354,11 +349,11 @@ class AccountReportScreen extends Component<Props> {
                           refresh: this._selectAllCategory_inMonth,
                         });
                       }}>
-                      <Text style={{left: 20, fontSize: 18}}>
+                      <Text style={{ left: 20, fontSize: 18, paddingTop: 10, }}>
                         {item.category_name}
                       </Text>
                       <Text
-                        style={{right: 40, fontSize: 18, position: 'absolute'}}>
+                        style={{ right: 40, fontSize: 18, position: 'absolute', paddingTop: 10, }}>
                         {item.total}
                       </Text>
                     </TouchableOpacity>
