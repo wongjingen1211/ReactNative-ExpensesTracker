@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component, memo } from 'react';
 import {
   StyleSheet,
   TextInput,
@@ -9,8 +9,7 @@ import {
   DatePickerAndroid,
   Alert,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {InputWithLabel, AppButton, CategoryPickerWithLabel} from './UI';
+import { InputWithLabel, AppButton, CategoryPickerWithLabel } from './UI';
 
 let config = require('../../Config');
 
@@ -38,7 +37,7 @@ export default class ExpensesScreen extends Component<Props> {
 
   openDatePicker = async () => {
     try {
-      const {action, year, month, day} = await DatePickerAndroid.open({
+      const { action, year, month, day } = await DatePickerAndroid.open({
         maxDate: new Date(), // Today
         minDate: new Date(2000, 1, 1),
         mode: 'calendar',
@@ -51,7 +50,7 @@ export default class ExpensesScreen extends Component<Props> {
           date: selectedDatesec,
         });
       }
-    } catch ({code, message}) {
+    } catch ({ code, message }) {
       console.warn('Cannot open date picker', message);
     }
   };
@@ -59,7 +58,7 @@ export default class ExpensesScreen extends Component<Props> {
   _selectAllCategory() {
     //fetch all category in this function
     let url = config.settings.serverPath + '/api/category';
-    this.setState({isFetching: true});
+    this.setState({ isFetching: true });
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -72,9 +71,9 @@ export default class ExpensesScreen extends Component<Props> {
       })
       //after places from server successfully, take the table places as i nput for further execution.
       .then(categories => {
-        this.setState({categories});
+        this.setState({ categories });
         //update the dictionary
-        this.setState({isFetching: false});
+        this.setState({ isFetching: false });
       })
       .catch(error => {
         console.log(error);
@@ -151,64 +150,73 @@ export default class ExpensesScreen extends Component<Props> {
 
     return (
       <ScrollView style={styles.container}>
-        <InputWithLabel
-          style={styles.input}
-          label={'Amount'}
-          value={this.state.amount}
-          keyboardType={'numeric'}
-          onChangeText={amount => {
-            this.setState({amount});
-          }}
-          orientation={'vertical'}
-        />
-        <CategoryPickerWithLabel
-          style={styles.picker}
-          label={'Category'}
-          items={this.state.categories}
-          mode={'dialog'}
-          value={this.state.categories.name}
-          onValueChange={(itemValue, itemIndex) => {
-            this.setState({category_id: itemIndex + 1});
-          }}
-          orientation={'vertical'}
-          textStyle={{fontSize: 24}}
-        />
-        <InputWithLabel
-          style={styles.input}
-          label={'Memo'}
-          value={this.state.memo}
-          onChangeText={memo => {
-            this.setState({memo});
-          }}
-          orientation={'vertical'}
-        />
+        <Text style={styles.date}>{newdate}</Text>
+        <View style={styles.inputSection}>
+          <InputWithLabel
+            style={styles.input}
+            label={'Amount'}
+            value={this.state.amount}
+            keyboardType={'numeric'}
+            onChangeText={amount => {
+              this.setState({ amount });
+            }}
+            orientation={'vertical'}
+          />
+          <CategoryPickerWithLabel
+            style={styles.picker}
+            label={'Category'}
+            items={this.state.categories}
+            mode={'dialog'}
+            value={this.state.categories.name}
+            onValueChange={(itemValue, itemIndex) => {
+              this.setState({ category_id: itemIndex + 1 });
+            }}
+            orientation={'vertical'}
+            textStyle={{ fontSize: 24 }}
+          />
+        </View>
 
-        <Text>{newdate}</Text>
+        <View style={styles.memo}>
+          <Text style={styles.memoLabel}>
+            Memo
+          </Text>
+          <TextInput
+            style={styles.memoInput}
+            value={this.state.memo}
+            onChangeText={memo => {
+              this.setState({ memo });
+            }}
+            orientation={'vertical'}
+          />
+        </View>
 
-        <AppButton
-          style={styles.button}
-          title={'Pick A Date'}
-          theme={'primary'}
-          onPress={this.openDatePicker}
-        />
+        <View style={styles.btnSection}>
+          <AppButton
+            style={styles.button}
+            title={'Pick A Date'}
+            theme={'primary'}
+            onPress={this.openDatePicker}
+          />
 
-        <AppButton
-          style={styles.button}
-          title={'Save'}
-          theme={'primary'}
-          onPress={() => {
-            console.log(
-              this.state.category_id +
+          <AppButton
+            style={styles.button}
+            title={'Save'}
+            theme={'save'}
+            onPress={() => {
+              console.log(
+                this.state.category_id +
                 '---' +
                 this.state.amount +
                 '---' +
                 this.state.memo +
                 '---' +
                 this.state.date,
-            );
-            this._insertSingleTransaction();
-          }}
-        />
+              );
+              this._insertSingleTransaction();
+            }}
+          />
+        </View>
+
       </ScrollView>
     );
   }
@@ -217,22 +225,61 @@ export default class ExpensesScreen extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    paddingTop: 10,
   },
   input: {
     fontSize: 16,
-    color: '#000',
-    marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 30,
   },
   picker: {
     color: '#000',
     marginTop: 10,
     marginBottom: 10,
+
   },
   button: {
     marginTop: 10,
     marginBottom: 10,
+    width: 150,
+    marginRight: 30,
+    marginLeft: 30,
   },
+  btnSection: {
+    marginTop: 15,
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  inputSection: {
+    backgroundColor: 'white',
+    paddingTop: 10,
+    padding: 30,
+    marginTop: 20,
+    marginBottom: 15,
+  },
+  memo: {
+    padding: 30,
+    marginBottom: 10,
+    backgroundColor: 'white',
+    paddingBottom: 50,
+
+  },
+  memoLabel: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 3,
+    textAlignVertical: 'center',
+  },
+  memoInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: '#c4c4c4',
+  },
+  date: {
+    textAlign: 'center',
+    fontSize: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: '#c4c4c4',
+    paddingBottom: 5,
+    fontWeight: 'bold',
+  }
+
 });
