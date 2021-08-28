@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
-import {StyleSheet, View, Text, TextInput, Alert, Button} from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View, } from 'react-native';
 import SettingsList from 'react-native-settings-list';
 
-const SettingScreen = ({navigation}) => {
+const SettingScreen = ({ navigation }) => {
   return (
-    <View style={{backgroundColor: '#EFEFF4', flex: 1}}>
-      <View style={{backgroundColor: '#EFEFF4', flex: 1}}>
+    <View style={{ backgroundColor: '#EFEFF4', flex: 1 }}>
+      <View style={{ backgroundColor: '#EFEFF4', flex: 1 }}>
         <SettingsList borderColor="#c8c7cc" defaultItemSize={50}>
-          <SettingsList.Header headerStyle={{marginTop: 15}} />
-
+          <SettingsList.Header headerStyle={{ marginTop: 15 }} />
           <SettingsList.Item
             title="Reminder"
             titleInfoStyle={styles.titleInfoStyle}
@@ -18,11 +17,6 @@ const SettingScreen = ({navigation}) => {
             title="Categories"
             titleInfoStyle={styles.titleInfoStyle}
             onPress={() => navigation.navigate('CategoryScreen')}
-          />
-          <SettingsList.Header headerStyle={{marginTop: 15}} />
-          <SettingsList.Item
-            title="MonthlyBudgets"
-            onPress={() => navigation.navigate('MonthlyBudgets')}
           />
         </SettingsList>
       </View>
