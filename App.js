@@ -1,11 +1,11 @@
-import {createAppContainer} from 'react-navigation';
-import {createStackNavigator} from '@react-navigation/stack';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {NavigationContainer} from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import HomeScreen from './src/screens/HomeScreen';
@@ -17,11 +17,10 @@ import SettingScreen from './src/screens/SettingScreen';
 import AccountReportScreen from './src/screens/AccountReportScreen';
 import Reminder from './src/screens/Reminder';
 import EditCategories from './src/screens/EditCategories';
-import MonthlyBudgets from './src/screens/MonthlyBudgets';
 import MonthlyCategoryScreen from './src/screens/MonthlyCategoryScreen';
-import CreateBudget from './src/screens/CreateBudget';
 
-import {black} from 'color-name';
+
+import { black } from 'color-name';
 
 const Stack = createStackNavigator();
 
@@ -30,24 +29,24 @@ function HomeNavi() {
     <Stack.Navigator
       initialRouteName="Home"
       screenOptions={{
-        headerStyle: {backgroundColor: '#fffacd'},
+        headerStyle: { backgroundColor: '#fffacd' },
         headerTintColor: '#ff8c00',
-        headerTitleStyle: {fontWeight: 'normal', fontSize: 25},
+        headerTitleStyle: { fontWeight: 'normal', fontSize: 25 },
       }}>
       <Stack.Screen
         name="Home"
         component={HomeScreen}
-        options={{title: 'Home'}}
+        options={{ title: 'Home' }}
       />
       <Stack.Screen
         name="Expense"
         component={ExpenseScreen}
-        options={{title: 'Add Transaction'}}
+        options={{ title: 'Add Transaction' }}
       />
       <Stack.Screen
         name="EditExpense"
         component={EditExpenseScreen}
-        options={{title: 'Edit Transaction'}}
+        options={{ title: 'Edit Transaction' }}
       />
     </Stack.Navigator>
   );
@@ -58,39 +57,29 @@ function SettingNavi() {
     <Stack.Navigator
       initialRouteName="Settings"
       screenOptions={{
-        headerStyle: {backgroundColor: '#fffacd'},
+        headerStyle: { backgroundColor: '#fffacd' },
         headerTintColor: '#ff8c00',
-        headerTitleStyle: {fontWeight: 'normal', fontSize: 25},
+        headerTitleStyle: { fontWeight: 'normal', fontSize: 25 },
       }}>
       <Stack.Screen
         name="Settings"
         component={SettingScreen}
-        options={{title: 'SettingsPage'}}
+        options={{ title: 'SettingsPage' }}
       />
       <Stack.Screen
         name="Reminder"
         component={Reminder}
-        options={{title: 'Reminder'}}
+        options={{ title: 'Reminder' }}
       />
       <Stack.Screen
         name="CategoryScreen"
         component={CategoryScreen}
-        options={{title: 'CategoryScreen'}}
+        options={{ title: 'CategoryScreen' }}
       />
       <Stack.Screen
         name="EditCategories"
         component={EditCategories}
-        options={{title: 'EditCategories'}}
-      />
-      <Stack.Screen
-        name="MonthlyBudgets"
-        component={MonthlyBudgets}
-        options={{title: 'Monthly Budgets'}}
-      />
-      <Stack.Screen
-        name="CreateBudget"
-        component={CreateBudget}
-        options={{title: 'Create Budget'}}
+        options={{ title: 'EditCategories' }}
       />
     </Stack.Navigator>
   );
@@ -101,45 +90,45 @@ function SummaryNavi() {
     <Stack.Navigator
       initialRouteName="Summary"
       screenOptions={{
-        headerStyle: {backgroundColor: '#fffacd'},
+        headerStyle: { backgroundColor: '#fffacd' },
         headerTintColor: '#ff8c00',
-        headerTitleStyle: {fontWeight: 'normal', fontSize: 25},
+        headerTitleStyle: { fontWeight: 'normal', fontSize: 25 },
       }}>
       <Stack.Screen
         name="AccountReports"
         component={AccountReportScreen}
-        options={{title: 'AccountReports'}}
+        options={{ title: 'AccountReports' }}
       />
       <Stack.Screen
         name="M_Category"
         component={MonthlyCategoryScreen}
-        options={{title: 'Monthly Category'}}
+        options={{ title: 'Monthly Category' }}
       />
       <Stack.Screen
         name="EditExpense"
         component={EditExpenseScreen}
-        options={{title: 'Edit Transaction'}}
+        options={{ title: 'Edit Transaction' }}
       />
     </Stack.Navigator>
   );
 }
 
-function ConverterNavi(){
-  return(
-  <Stack.Navigator
+function ConverterNavi() {
+  return (
+    <Stack.Navigator
       initialRouteName="Converter"
       screenOptions={{
-        headerStyle: {backgroundColor: '#fffacd'},
+        headerStyle: { backgroundColor: '#fffacd' },
         headerTintColor: '#ff8c00',
-        headerTitleStyle: {fontWeight: 'normal', fontSize: 25},
+        headerTitleStyle: { fontWeight: 'normal', fontSize: 25 },
       }}>
-         <Stack.Screen
+      <Stack.Screen
         name="CurrencyConverter"
         component={CurrencyConverter}
-        options={{title: 'Currency Converter'}}
+        options={{ title: 'Currency Converter' }}
       />
-      </Stack.Navigator>
-     );
+    </Stack.Navigator>
+  );
 }
 
 const Tab = createBottomTabNavigator();
@@ -164,7 +153,7 @@ function Menu() {
           component={HomeNavi}
           options={{
             tabBarLabel: 'Home',
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="home" color={color} size={32} />
             ),
           }}
@@ -174,7 +163,7 @@ function Menu() {
           component={SettingNavi}
           options={{
             tabBarLabel: 'Settings',
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="cogs" color={color} size={32} />
             ),
           }}
@@ -183,8 +172,8 @@ function Menu() {
           name="EasyTracker3"
           component={SummaryNavi}
           options={{
-            tabBarLabel: 'AccountSummary',
-            tabBarIcon: ({color, size}) => (
+            tabBarLabel: 'Reports',
+            tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="account-multiple"
                 color={color}
@@ -193,12 +182,12 @@ function Menu() {
             ),
           }}
         />
-         <Tab.Screen
+        <Tab.Screen
           name="EasyTracker4"
           component={ConverterNavi}
           options={{
             tabBarLabel: 'Currency Converter',
-            tabBarIcon: ({color, size}) => (
+            tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons
                 name="currency-usd"
                 color={color}
