@@ -1,19 +1,11 @@
-import React, {useState, Component} from 'react';
+import React, { Component } from 'react';
 import {
-  Text,
   StyleSheet,
-  TouchableOpacity,
   View,
   SafeAreaView,
   Alert,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Icon from 'react-native-vector-icons/Ionicons';
-import CategoryButton from '../../component/CategoryButton';
-import {bold} from 'jest-matcher-utils/node_modules/chalk';
-import {styles} from 'ansi-colors';
-import {NavigationContainer} from '@react-navigation/native';
-import {InputWithLabel, AppButton} from './UI';
+import { InputWithLabel, AppButton } from './UI';
 
 let config = require('../../Config');
 
@@ -75,7 +67,7 @@ export default class EditCategories extends Component<Props> {
       [
         {
           text: 'No',
-          onPress: () => {},
+          onPress: () => { },
         },
         {
           text: 'Yes',
@@ -91,7 +83,7 @@ export default class EditCategories extends Component<Props> {
                 'Content-Type': 'application/json',
               },
               //data is to be in JSON format
-              body: JSON.stringify({category_id: this.state.cat_id}),
+              body: JSON.stringify({ category_id: this.state.cat_id }),
             })
               .then(response => {
                 if (!response.ok) {
@@ -113,28 +105,30 @@ export default class EditCategories extends Component<Props> {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   }
 
   render() {
     return (
       <SafeAreaView style={styles2.Space}>
+
         <InputWithLabel
           style={styles2.input}
           label={'Category Name'}
           value={String(this.state.category_name)}
           onChangeText={category_name => {
-            this.setState({category_name});
+            this.setState({ category_name });
           }}
           orientation={'vertical'}
         />
+
 
         <View style={styles2.buttonSpace}>
           <AppButton
             style={styles2.button}
             title={'Save'}
-            theme={'primary'}
+            theme={'save'}
             onPress={() => {
               this._updateSingleCategory();
             }}
@@ -155,15 +149,19 @@ export default class EditCategories extends Component<Props> {
 
 const styles2 = StyleSheet.create({
   Space: {
-    flex: 1.0,
+    flex: 1,
+    padding: 20,
   },
   buttonSpace: {
     flex: 3,
     height: 30,
   },
-  input: {height: 30, color: 'red', margin: 0},
+  input: {
+    flex: 1,
+  },
   button: {
     marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
+
   },
 });
