@@ -2,7 +2,6 @@ import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from '@react-navigation/stack';
 import 'react-native-gesture-handler';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -18,9 +17,6 @@ import AccountReportScreen from './src/screens/AccountReportScreen';
 import Reminder from './src/screens/Reminder';
 import EditCategories from './src/screens/EditCategories';
 import MonthlyCategoryScreen from './src/screens/MonthlyCategoryScreen';
-
-
-import { black } from 'color-name';
 
 const Stack = createStackNavigator();
 
@@ -46,7 +42,7 @@ function HomeNavi() {
       <Stack.Screen
         name="EditExpense"
         component={EditExpenseScreen}
-        options={{ title: 'Edit Transaction' }}
+        options={{ title: 'Edit Expense' }}
       />
     </Stack.Navigator>
   );
@@ -64,7 +60,7 @@ function SettingNavi() {
       <Stack.Screen
         name="Settings"
         component={SettingScreen}
-        options={{ title: 'SettingsPage' }}
+        options={{ title: 'Settings' }}
       />
       <Stack.Screen
         name="Reminder"
@@ -74,12 +70,12 @@ function SettingNavi() {
       <Stack.Screen
         name="CategoryScreen"
         component={CategoryScreen}
-        options={{ title: 'CategoryScreen' }}
+        options={{ title: 'Category Screen' }}
       />
       <Stack.Screen
         name="EditCategories"
         component={EditCategories}
-        options={{ title: 'EditCategories' }}
+        options={{ title: 'Edit Categories' }}
       />
     </Stack.Navigator>
   );
@@ -97,7 +93,7 @@ function SummaryNavi() {
       <Stack.Screen
         name="AccountReports"
         component={AccountReportScreen}
-        options={{ title: 'AccountReports' }}
+        options={{ title: 'Account Reports' }}
       />
       <Stack.Screen
         name="M_Category"
@@ -107,7 +103,7 @@ function SummaryNavi() {
       <Stack.Screen
         name="EditExpense"
         component={EditExpenseScreen}
-        options={{ title: 'Edit Transaction' }}
+        options={{ title: 'Edit Expense' }}
       />
     </Stack.Navigator>
   );
