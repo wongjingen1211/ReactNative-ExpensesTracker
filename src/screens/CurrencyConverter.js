@@ -64,7 +64,7 @@ export default class CurrencyConverter extends Component<Props> {
     this._convertCurrency(Number(this.state.amount), this.state.pick, this.state.pick2);
     setTimeout(() => {
        Alert.alert('Converted amount: ' + this.state.result);
-   }, 1000); //wait for the cateogry load
+   }, 2000); //wait for the currency to convert
   }
 
   render() {  
