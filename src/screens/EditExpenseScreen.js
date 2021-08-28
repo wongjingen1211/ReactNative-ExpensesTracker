@@ -1,26 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import {
   StyleSheet,
-  TextInput,
   Text,
   ScrollView,
   View,
-  Button,
   DatePickerAndroid,
   Alert,
+  TouchableOpacity,
+  Image,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import {FloatingAction} from 'react-native-floating-action';
-import {InputWithLabel, AppButton, CategoryPickerWithLabel} from './UI';
-
-const actions = [
-  {
-    text: 'Delete',
-    icon: require('../../assets/icons/delete.png'),
-    name: 'Delete',
-    position: 1,
-  },
-];
+import { InputWithLabel, AppButton, CategoryPickerWithLabel } from './UI';
 
 let config = require('../../Config');
 
@@ -59,7 +48,7 @@ export default class EditExpensesScreen extends Component<Props> {
           this.state.categories[item].category_name === this.state.category_name
         ) {
           let cat_id = this.state.categories[item].category_id;
-          this.setState({category_id: cat_id});
+          this.setState({ category_id: cat_id });
           console.log(cat_id);
           break;
         }
@@ -69,7 +58,7 @@ export default class EditExpensesScreen extends Component<Props> {
 
   openDatePicker = async () => {
     try {
-      const {action, year, month, day} = await DatePickerAndroid.open({
+      const { action, year, month, day } = await DatePickerAndroid.open({
         maxDate: new Date(), // Today
         minDate: new Date(2000, 1, 1),
         mode: 'calendar',
@@ -82,7 +71,7 @@ export default class EditExpensesScreen extends Component<Props> {
           process_date: selectedDatesec,
         });
       }
-    } catch ({code, message}) {
+    } catch ({ code, message }) {
       console.warn('Cannot open date picker', message);
     }
   };
@@ -90,7 +79,7 @@ export default class EditExpensesScreen extends Component<Props> {
   _selectAllCategory() {
     //fetch all category in this function
     let url = config.settings.serverPath + '/api/category';
-    this.setState({isFetching: true});
+    this.setState({ isFetching: true });
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -103,9 +92,9 @@ export default class EditExpensesScreen extends Component<Props> {
       })
       //after places from server successfully, take the table places as i nput for further execution.
       .then(categories => {
-        this.setState({categories});
+        this.setState({ categories });
         //update the dictionary
-        this.setState({isFetching: false});
+        this.setState({ isFetching: false });
       })
       .catch(error => {
         console.log(error);
@@ -189,7 +178,7 @@ export default class EditExpensesScreen extends Component<Props> {
       [
         {
           text: 'No',
-          onPress: () => {},
+          onPress: () => { },
         },
         {
           text: 'Yes',
@@ -205,7 +194,7 @@ export default class EditExpensesScreen extends Component<Props> {
                 'Content-Type': 'application/json',
               },
               //data is to be in JSON format
-              body: JSON.stringify({transaction_id: transID}),
+              body: JSON.stringify({ transaction_id: transID }),
             })
               .then(response => {
                 if (!response.ok) {
@@ -227,7 +216,7 @@ export default class EditExpensesScreen extends Component<Props> {
           },
         },
       ],
-      {cancelable: false},
+      { cancelable: false },
     );
   }
 
@@ -258,77 +247,87 @@ export default class EditExpensesScreen extends Component<Props> {
 
     return (
       <ScrollView style={styles.container}>
-        <InputWithLabel
-          style={styles.input}
-          label={'Amount'}
-          value={this.state.amount.toString()}
-          keyboardType={'numeric'}
-          onChangeText={amount => {
-            this.setState({amount});
-          }}
-          orientation={'vertical'}
-        />
-        <CategoryPickerWithLabel
-          style={styles.picker}
-          label={'Category'}
-          items={this.state.categories}
-          mode={'dialog'}
-          value={this.state.category_name}
-          onValueChange={(itemValue, itemIndex) => {
-            this.setState({category_id: itemIndex + 1});
-          }}
-          orientation={'vertical'}
-          textStyle={{fontSize: 24}}
-        />
-        <InputWithLabel
-          style={styles.input}
-          label={'Memo'}
-          value={this.state.memo}
-          onChangeText={memo => {
-            this.setState({memo});
-          }}
-          orientation={'vertical'}
-        />
+        <Text style={styles.date}>{newdate}</Text>
 
-        <Text>{newdate}</Text>
+        <View style={styles.inputSection}>
+          <InputWithLabel
+            style={styles.input}
+            label={'Amount'}
+            value={this.state.amount.toString()}
+            keyboardType={'numeric'}
+            onChangeText={amount => {
+              this.setState({ amount });
+            }}
+            orientation={'vertical'}
+          />
+          <CategoryPickerWithLabel
+            style={styles.picker}
+            label={'Category'}
+            items={this.state.categories}
+            mode={'dialog'}
+            value={this.state.category_name}
+            onValueChange={(itemValue, itemIndex) => {
+              this.setState({ category_id: itemIndex + 1 });
+            }}
+            orientation={'vertical'}
+            textStyle={{ fontSize: 24 }}
+          />
+          <InputWithLabel
+            style={styles.input}
+            label={'Memo'}
+            value={this.state.memo}
+            onChangeText={memo => {
+              this.setState({ memo });
+            }}
+            orientation={'vertical'}
+          />
+        </View>
+        <View style={styles.btnSection}>
 
-        <AppButton
-          style={styles.button}
-          title={'Pick A Date'}
-          theme={'primary'}
-          onPress={this.openDatePicker}
-        />
+          <AppButton
+            style={styles.button}
+            title={'Pick A Date'}
+            theme={'primary'}
+            onPress={this.openDatePicker}
+          />
 
-        <AppButton
-          style={styles.button}
-          title={'Save'}
-          theme={'primary'}
-          onPress={() => {
-            console.log(
-              this.state.category_id +
+          <AppButton
+            style={styles.button}
+            title={'Save'}
+            theme={'save'}
+            onPress={() => {
+              console.log(
+                this.state.category_id +
                 '---' +
                 this.state.amount +
                 '---' +
                 this.state.memo +
                 '---' +
                 this.state.process_date,
-            );
-            this._updateSingleTransaction(
-              this.state.category_id,
-              this.state.amount,
-              this.state.memo,
-              this.state.process_date,
-            );
-          }}
-        />
-        <FloatingAction
-          actions={actions}
-          color={'lightblue'}
-          onPressItem={() => {
-            this._deleteTransaction(this.state.transaction_id);
-          }}
-        />
+              );
+              this._updateSingleTransaction(
+                this.state.category_id,
+                this.state.amount,
+                this.state.memo,
+                this.state.process_date,
+              );
+            }}
+          />
+        </View>
+        <View style={{ padding: 50 }}>
+          <TouchableOpacity
+            style={styles.touchableOpacityStyle}
+            onPress={() => {
+              this._deleteTransaction(this.state.transaction_id);
+            }}>
+            <Image
+              source={require('../../assets/icons/delete.png')}
+              style={styles.floatingButtonStyle}
+            />
+          </TouchableOpacity>
+        </View>
       </ScrollView>
+
     );
   }
 }
@@ -336,22 +335,61 @@ export default class EditExpensesScreen extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#fff',
+    paddingTop: 10,
   },
   input: {
     fontSize: 16,
     color: '#000',
-    marginTop: 10,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   picker: {
     color: '#000',
-    marginTop: 10,
-    marginBottom: 10,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  inputSection: {
+    backgroundColor: 'white',
+    paddingTop: 10,
+    padding: 30,
+    marginTop: 20,
+    marginBottom: 15,
   },
   button: {
     marginTop: 10,
     marginBottom: 10,
+    marginLeft: 30,
+    marginRight: 30,
+  },
+  btnSection: {
+    marginTop: 10,
+
+  },
+  date: {
+    textAlign: 'center',
+    fontSize: 18,
+    borderBottomWidth: 1,
+    borderBottomColor: '#c4c4c4',
+    paddingBottom: 5,
+    fontWeight: 'bold',
+  },
+  touchableOpacityStyle: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    right: 30,
+    bottom: 20,
+    borderRadius: 30,
+    backgroundColor: '#6775c2',
+    shadowColor: 'black',
+    shadowOpacity: 0.8,
+    elevation: 6,
+    shadowOffset: { width: 56, height: 13 },
+  },
+  floatingButtonStyle: {
+    resizeMode: 'contain',
+    width: 35,
+    height: 35,
   },
 });
