@@ -1,8 +1,7 @@
-import React, {useState, Component} from 'react';
+import React, { Component } from 'react';
 import {
   Text,
   StyleSheet,
-  TouchableOpacity,
   View,
   SafeAreaView,
   Alert,
@@ -10,14 +9,8 @@ import {
   FlatList,
   ToastAndroid,
 } from 'react-native';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import Icon from 'react-native-vector-icons/Ionicons';
-import CategoryButton from '../../component/CategoryButton';
-import {bold} from 'jest-matcher-utils/node_modules/chalk';
-import {styles} from 'ansi-colors';
-import {NavigationContainer} from '@react-navigation/native';
 import Prompt from 'react-native-input-prompt';
-import {FloatingAction} from 'react-native-floating-action';
+import { FloatingAction } from 'react-native-floating-action';
 
 const actions = [
   {
@@ -52,7 +45,7 @@ export default class CategoryScreen extends Component {
   _selectAllCategory() {
     //fetch all category in this function
     let url = config.settings.serverPath + '/api/category';
-    this.setState({isFetching: true});
+    this.setState({ isFetching: true });
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -65,9 +58,9 @@ export default class CategoryScreen extends Component {
       })
       //after places from server successfully, take the table places as i nput for further execution.
       .then(categories => {
-        this.setState({categories});
+        this.setState({ categories });
         //update the dictionary
-        this.setState({isFetching: false});
+        this.setState({ isFetching: false });
       })
       .catch(error => {
         console.log(error);
@@ -134,65 +127,68 @@ export default class CategoryScreen extends Component {
     console.log('Screen Loading');
     return (
       <SafeAreaView style={styles2.Space}>
-        <FlatList
-          data={this.state.categories}
-          extraData={this.state}
-          showsVerticalScrollIndicator={true}
-          renderItem={({item}) => {
-            return (
-              <TouchableHighlight
-                underlayColor={'#cccccc'}
-                onPress={() => {
-                  if (item.category_id != 1) {
-                    //prevent user to edit the defualt category
-                    this.props.navigation.navigate('EditCategories', {
-                      id: item.category_id,
-                      name: item.category_name,
-                      refresh: this._selectAllCategory,
-                    });
-                  } else {
-                    ToastAndroid.showWithGravityAndOffset(
-                      'Cannot modify default category.',
-                      ToastAndroid.LONG,
-                      ToastAndroid.BOTTOM,
-                      25,
-                      50,
-                    );
-                  }
-                }}>
-                <Text style={styles2.text}>{item.category_name}</Text>
-              </TouchableHighlight>
-            );
-          }}
-          keyExtractor={item => {
-            item.category_id.toString();
-          }}
-        />
 
-        <Prompt
-          visible={this.state.prompt_visible}
-          title="Input New Category"
-          placeholder="Type the category name"
-          onCancel={() =>
-            this.setState({
-              prompt_visible: !this.state.prompt_visible,
-            })
-          }
-          onSubmit={text => {
-            this.setState({
-              prompt_visible: !this.state.prompt_visible,
-            });
-            this._insertSingleTransaction(text);
-          }}
-        />
+        <View style={{ flex: 1, width: '100%' }}>
+          <FlatList style={styles2.flatlist}
+            data={this.state.categories}
+            extraData={this.state}
+            showsVerticalScrollIndicator={true}
+            renderItem={({ item }) => {
+              return (
+                <TouchableHighlight
+                  style={styles2.item}
+                  onPress={() => {
+                    if (item.category_id != 1) {
+                      //prevent user to edit the defualt category
+                      this.props.navigation.navigate('EditCategories', {
+                        id: item.category_id,
+                        name: item.category_name,
+                        refresh: this._selectAllCategory,
+                      });
+                    } else {
+                      ToastAndroid.showWithGravityAndOffset(
+                        'Cannot modify default category.',
+                        ToastAndroid.LONG,
+                        ToastAndroid.BOTTOM,
+                        25,
+                        50,
+                      );
+                    }
+                  }}>
+                  <Text style={styles2.text}>{item.category_name}</Text>
+                </TouchableHighlight>
+              );
+            }}
+            keyExtractor={item => {
+              item.category_id.toString();
+            }}
+          />
 
-        <FloatingAction
-          actions={actions}
-          color={'lightblue'}
-          onPressItem={() => {
-            this.setState({prompt_visible: true});
-          }}
-        />
+          <Prompt
+            visible={this.state.prompt_visible}
+            title="Input New Category"
+            placeholder="Type the category name"
+            onCancel={() =>
+              this.setState({
+                prompt_visible: !this.state.prompt_visible,
+              })
+            }
+            onSubmit={text => {
+              this.setState({
+                prompt_visible: !this.state.prompt_visible,
+              });
+              this._insertSingleTransaction(text);
+            }}
+          />
+
+          <FloatingAction
+            actions={actions}
+            color={'#6775c2'}
+            onPressItem={() => {
+              this.setState({ prompt_visible: true });
+            }}
+          />
+        </View>
       </SafeAreaView>
     );
   }
@@ -209,12 +205,15 @@ const styles2 = StyleSheet.create({
     marginTop: 10,
   },
   text: {
-    paddingVertical: 8,
+    paddingVertical: 15,
     borderWidth: 1,
     borderColor: '#000',
-    backgroundColor: '#e7e7e7',
+    backgroundColor: '#edf5ff',
     color: '#20232a',
     textAlign: 'center',
     fontSize: 18,
+  },
+  item: {
+    paddingTop: 10,
   },
 });
