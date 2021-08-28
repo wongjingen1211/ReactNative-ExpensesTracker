@@ -1,20 +1,17 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import 'react-native-gesture-handler';
 import CalendarPicker from 'react-native-calendar-picker';
 import {
   StyleSheet,
-  Button,
   Text,
   View,
-  TouchableOpacity,
   SafeAreaView,
   TouchableHighlight,
   FlatList,
   DatePickerAndroid,
   Alert,
 } from 'react-native';
-import {AppButton} from './UI';
-import {NavigationContainer} from '@react-navigation/native';
+import { AppButton } from './UI';
 
 let config = require('../../Config');
 
@@ -67,9 +64,9 @@ export default class HomeScreen extends Component<Props> {
 
     console.log(
       'Viewing Transactions from:' +
-        new Date(startTime_parsed) +
-        ' to ' +
-        new Date(endTime_parsed),
+      new Date(startTime_parsed) +
+      ' to ' +
+      new Date(endTime_parsed),
     );
     console.log(startTime_parsed);
     console.log(endTime_parsed);
@@ -80,7 +77,7 @@ export default class HomeScreen extends Component<Props> {
       startTime_parsed +
       '/' +
       endTime_parsed;
-    this.setState({isFetching: true});
+    this.setState({ isFetching: true });
     fetch(url)
       .then(response => {
         if (!response.ok) {
@@ -93,9 +90,9 @@ export default class HomeScreen extends Component<Props> {
       })
       //after places from server successfully, take the table places as i nput for further execution.
       .then(selected_transactions => {
-        this.setState({selected_transactions});
+        this.setState({ selected_transactions });
         //update the dictionary
-        this.setState({isFetching: false});
+        this.setState({ isFetching: false });
       })
       .catch(error => {
         console.log(error);
@@ -142,22 +139,24 @@ export default class HomeScreen extends Component<Props> {
 
     console.log(this.state.selected_transactions);
     return (
-      <SafeAreaView style={{flex: 1}}>
+      <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.container}>
           <CalendarPicker
             minDate={minDate}
             maxDate={maxDate}
             onDateChange={this.onDateChange}
+            selectedDayColor='#ec971f'
+            todayBackgroundColor="#fffacd"
           />
         </View>
 
-        <View>
+        <View style={{ flex: 1, width: '100%' }}>
           <Text>{newdate}</Text>
           <FlatList
             data={this.state.selected_transactions}
             extraData={this.state}
             showsVerticalScrollIndicator={true}
-            renderItem={({item}) => {
+            renderItem={({ item }) => {
               return (
                 <TouchableHighlight
                   underlayColor={'#cccccc'}
@@ -168,8 +167,8 @@ export default class HomeScreen extends Component<Props> {
                     });
                   }}>
                   <View style={styles.transaction_row}>
-                    <Text style={styles.text}>{item.amount}</Text>
                     <Text style={styles.text}>{item.category_name}</Text>
+                    <Text style={styles.text}>RM {item.amount}</Text>
                   </View>
                 </TouchableHighlight>
               );
@@ -180,17 +179,21 @@ export default class HomeScreen extends Component<Props> {
           />
         </View>
 
-        <View style={{flex: 1, padding: 16}}>
-          <TouchableOpacity
+
+
+        <View style={{ padding: 16 }}>
+          <AppButton
             style={styles.button}
+            title={'Add New Record'}
+            theme={'primary'}
             onPress={() => {
               this.props.navigation.navigate('Expense', {
                 refresh: this._selectTransactions,
               });
             }}>
-            <Text>Add Transaction</Text>
-          </TouchableOpacity>
+          </AppButton>
         </View>
+
       </SafeAreaView>
     );
   }
@@ -198,26 +201,24 @@ export default class HomeScreen extends Component<Props> {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 4,
     backgroundColor: '#FFFFFF',
+    marginBottom: 10,
+    borderWidth: 1,
   },
-  button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
-    padding: 10,
-    width: 300,
-    marginTop: 16,
-  },
-  text: {},
+
   transaction_row: {
     flexDirection: 'row',
     justifyContent: 'space-around',
     paddingVertical: 8,
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderColor: '#000',
-    backgroundColor: '#e7e7e7',
+    backgroundColor: '#edf5ff',
+
+  },
+  text: {
+    fontSize: 18,
     color: '#20232a',
     textAlign: 'center',
-    fontSize: 18,
   },
+
 });
