@@ -4,10 +4,15 @@ import {
   View,
   SafeAreaView,
   Alert,
+  LogBox, 
 } from 'react-native';
 import { InputWithLabel, AppButton } from './UI';
 
 let config = require('../../Config');
+
+LogBox.ignoreLogs([
+ 'Non-serializable values were found in the navigation state',
+]);
 
 type Props = {};
 export default class EditCategories extends Component<Props> {
