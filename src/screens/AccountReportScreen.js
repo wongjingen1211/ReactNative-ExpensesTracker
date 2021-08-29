@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   FlatList,
+  AsyncStorage,
 } from 'react-native';
 import { VictoryPie } from 'victory-native';
 
