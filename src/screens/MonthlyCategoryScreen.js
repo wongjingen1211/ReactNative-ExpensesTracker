@@ -153,8 +153,7 @@ export default class MonthlyCategoryScreen extends Component<Props> {
                   <View style={styles.transaction_row}>
                     <Text style={styles.text}>{item.amount}</Text>
                     <Text style={styles.text}>
-                      {new Date(item.process_date).getDay() +
-                        1 +
+                      {new Date(item.process_date).getDate() +
                         '/' +
                         (new Date(item.process_date).getMonth() + 1) +
                         '/' +
