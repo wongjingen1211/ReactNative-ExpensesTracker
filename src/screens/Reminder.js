@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     View,
+    Alert,
     Text,
     Switch,
     TouchableOpacity,
@@ -83,7 +84,7 @@ const Reminder = () => {
 
  
 
-    const _saveReminder = async(key, value) => {
+    const _readReminder = async(key, value) => {
         try {
           await AsyncStorage.setItem (key, value);
         } catch (error) {
@@ -152,8 +153,12 @@ const Reminder = () => {
           onPress={() => {
             let switchReminder = JSON.stringify(isEnabled);
             let timeReminder = JSON.stringify(reminderTime)
-           veReminder('switch', switchReminder)
-            _saveReminder('time', timeReminder)
+            _readReminder('switch', switchReminder)
+            _readReminder('time', timeReminder)
+
+            Alert.alert(
+                'Reminder setting saved',
+              )
             if (isEnabled){
             handleScheduleNotification("Reminder for record the expenses", "Do you record your expenses today?")
             }
