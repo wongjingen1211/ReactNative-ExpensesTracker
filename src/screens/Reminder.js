@@ -158,6 +158,7 @@ const Reminder = () => {
 
             Alert.alert(
                 'Reminder setting saved',
+                'Time set: ' + reminderTime.getHours().toString() + '.' + reminderTime.getMinutes().toString(),
               )
             if (isEnabled){
             handleScheduleNotification("Reminder for record the expenses", "Do you record your expenses today?")
