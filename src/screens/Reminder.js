@@ -1,24 +1,18 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     StyleSheet,
     View,
     Text,
-    TextInput,
-    Alert,
-    Button,
     Switch,
     TouchableOpacity,
 } from 'react-native';
-import CheckBoxList from "./CheckBoxList";
-import TimePickerModal from "react-native-modal-datetime-picker";
+
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import AsyncStorage from '@react-native-community/async-storage';
 import PushNotification from "react-native-push-notification";
-//import CheckBox from "@react-native-community/checkbox";
+
 import {AppButton} from './UI';
 
-//let config = require('../../Config');
-//let url = config.settings.serverPath + '/api/reminder';
 
 
 const Reminder = () => {
@@ -87,90 +81,7 @@ const Reminder = () => {
     const [reminderDay, setReminderDay] = useState();
     const [isFetching, setFetching] = useState(false);
 
-    //checkbox
-
-
-    /**state = {
-       selectedLang1: false,
-       selectedLang2: false,
-       selectedLang3: false,
-       selectedLang4: false,
-   
-     }
-     const { selectedLang1, selectedLang2, selectedLang3, selectedLang4 } = useState
-   
-         <View style={styles.item} >
-           <CheckBox checked={selectedLang1} color="#fc5185"
-             onPress={() => useState({ selectedLang1: !selectedLang1 })} />
-           <Text style={
-             {
-               ...styles.checkBoxTxt,
-               color: useState.selectedLang1 ? "#fc5185" : "gray",
-               fontWeight: useState.selectedLang1 ? "bold" : "normal"
-             }}
-           >Python</Text>
-         </View>*/
-     
-
-    /*const readReminder = () => {
-
-
-        //fetch all category in this function
-        setFetching(true);
-        fetch(url)
-        .then(response => {
-            if (!response.ok) {
-            //catch the responds error status
-            Alert.alert('Error', response.status.toString());
-            throw Error('Error ' + response.status);
-            }
-            //respond status e.g., 201 created, 202 OK, 404 no found
-            return response.json();
-        })
-        //after places from server successfully, take the table places as i nput for further execution.
-        .then(reminder => {
-            setIsEnabled();
-            setReminderTime();
-            setFetching(false);
-        })
-        .catch(error => {
-            console.log(error);
-        });
-    }*/
-
-/*
-    const [newStates, setNewStates] = useState({});
-
-    const _readReminder = async () => {
-        newStates = {};
-
-        try{
-            let keys = await AsyncStorage.multiGet (
-                ['switch', 'time', 'day'],
-                (err, stores) => {
-                    stores.map ((result, i, store) => {
-                      // get at each store's key/value so you can work with it
-                      let key = store[i][0]; // the key
-                      let value = store[i][1]; // the value
-                      // console.log (key);
-                      // console.log (value);
-                      // console.log (['name', 'email', 'gender', 'educationLevel'].indexOf (key));
-                      // if (['name', 'email', 'gender', 'educationLevel'].indexOf (key) != -1) {
-                      //   newStates[key] = value == 'true' ? true : false;
-                      // } else 
-                      {
-                        newStates[key] = value;
-                      }
-                    });
-                    setNewStates();
-                    console.log (newStates);
-                }
-            )
-        }catch(error){
-            console.log ('## ERROR READING ITEM ##: ', error);
-        }
-    };
-*/
+ 
 
     const _saveReminder = async(key, value) => {
         try {
@@ -192,28 +103,7 @@ const Reminder = () => {
       }
     }
 
-/*
-    const _saveReminder2 = async() => {
-        try {
 
-            let var1 = ['switch', isEnabled ? isEnabled.toString():''];
-            let var2 = ['time', reminderTime ? reminderTime.toString():''];
-            let var3 = ['day', reminderDay ? reminderDay.toString():''];
-
-            await AsyncStorage.multiSet([var1,var2,var3]);
-          } catch (error) {
-            console.log ('## ERROR SAVING ITEM ##: ', error);
-          }
-    }
-*/
-
-
-/*
-const onChange = (event, selectedTime) => {
-  const currentTime = selectedTime || reminderTime;
-  setReminderTime(currentTime);
-};
-*/
 
     return (
 
@@ -262,14 +152,7 @@ const onChange = (event, selectedTime) => {
           onPress={() => {
             let switchReminder = JSON.stringify(isEnabled);
             let timeReminder = JSON.stringify(reminderTime)
-            /*let test = new Date(reminderTime.getDate())
-            let test2 = JSON.stringify(test)
-            Alert.alert(
-              switchReminder,
-              timeReminder,
-              test2,
-            )*/
-            _saveReminder('switch', switchReminder)
+           veReminder('switch', switchReminder)
             _saveReminder('time', timeReminder)
             if (isEnabled){
             handleScheduleNotification("Reminder for record the expenses", "Do you record your expenses today?")
@@ -327,13 +210,6 @@ const styles = StyleSheet.create({
         fontSize: 18,
     },
 
-    /*checkboxContainer: {
-        flexDirection: "row",
-        marginBottom: 20,
-    },
-    checkbox: {
-        alignSelf: "center",
-    },*/
 
 });
 
