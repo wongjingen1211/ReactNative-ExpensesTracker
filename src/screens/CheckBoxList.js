@@ -41,30 +41,40 @@ const list = [
 ]
 
 
+
 class CheckBoxList extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            list: list
+            list: list,
+            listTest: this.props.dataToReminder,
+            checked: {},
         }
     }
 
-    checkThisBox = (itemID) => {
+    /**checkThisBox = (itemID) => {
         const list = { ...this.state.list }
         //    if (list[itemID].checked) list[itemID].checked = true;
         //  else !list[itemID].checked;
 
         list[itemID].checked = !list[itemID].checked
         this.setState({ list: list })
+    }*/
+
+    checkThisBox = (itemID) => {
+        const checkCopy = {...this.state.checked}
+        if (checkCopy[itemID]) checkCopy[itemID] = false;
+        else checkCopy[itemID] = true;
+        this.setState({ checked: checkCopy });
     }
 
     renderItem = ({ item }) => (
         <View style={styles.container}>
             <Text style={styles.label}>{item.name}</Text>
             <CheckBox style={styles.chkBtn}
-                checked={this.state.list[item.id]}
-                onPress={() => this.setState({ list: !list[item.checked] })}
+                value = {this.state.checked[item.id]}
+                onChange={() => this.checkThisBox(item.id)}
             />
 
         </View>
@@ -72,6 +82,7 @@ class CheckBoxList extends Component {
     )
 
     render() {
+
         return (
             <View>
                 <FlatList
@@ -79,6 +90,7 @@ class CheckBoxList extends Component {
                     data={this.state.list}
                     renderItem={this.renderItem}
                     extraData={this.state}
+                    var checkboxtest = {this.props.list}
                 />
             </View>
         )
