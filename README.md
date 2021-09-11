@@ -1,4 +1,4 @@
-# WirelessAppAss
+# Expenses Tracker React-native Application
 This repository should only contain files like '...Screens', 'sqlite' ... 
 Please don't put react-navigation's auto generated files inside to prevent confusions.
 
